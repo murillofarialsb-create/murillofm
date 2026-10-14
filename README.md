@@ -30,5 +30,5 @@ O Claude lança as linhas na aba **Lançamentos** e faz commit aqui no repositó
 
 ## App (versão visual)
 
-O app **Sobrou** (antes "Caixa do Murillo") fica em https://claude.ai/artifact/1jB3tCxNrVDBRFEXrRmZVp (privado, só o dono vê os dados).
+O app **Trocado** (antes "Caixa do Murillo" e "Sobrou") fica em https://claude.ai/artifact/1jB3tCxNrVDBRFEXrRmZVp (privado, só o dono vê os dados).
 O código está em `app/index.html`. Os lançamentos ficam salvos no banco do próprio app, e o Claude consegue lançar por você.

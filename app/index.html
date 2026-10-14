@@ -1,4 +1,4 @@
-<title>Sobrou</title>
+<title>Trocado</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -113,6 +113,8 @@ main { min-width: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); pa
 .track-l { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--hero-muted); margin-top: 8px; position: relative; }
 
 /* insights */
+.gm { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin-bottom: -8px; }
+.gm span { color: var(--moeda); display: grid; } .gm svg { width: 16px; height: 16px; }
 .insights { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(230px, 1fr); gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; scrollbar-width: none; }
 .insights::-webkit-scrollbar { display: none; }
 .ins { scroll-snap-align: start; background: var(--surface); border-radius: var(--r-m); padding: 16px; box-shadow: var(--shadow-1); display: grid; gap: 8px; align-content: start; }
@@ -290,7 +292,7 @@ main { min-width: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); pa
 
 <div class="shell">
   <aside class="side" aria-label="Navegação">
-    <div class="logo"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#mark"/></svg>sobrou</div>
+    <div class="logo"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#mark"/></svg>trocado</div>
     <button class="nav" data-tab="inicio"></button>
     <button class="nav" data-tab="extrato"></button>
     <button class="nav" data-tab="metas"></button>
@@ -499,7 +501,8 @@ function viewInicio() {
         <div class="track-l"><span>${S.ganho > 0 ? `Gastou ${Math.round(pct * 100)}% do que entrou` : S.gasto > 0 ? "Ainda não entrou nada este mês" : "Nenhum lançamento neste mês"}</span><span>${(planned("Ganho") || planned("Gasto")) ? "Previsto: " + esc(short(planned("Ganho") - planned("Gasto"))) : ""}</span></div>
       </section>
 
-      <div class="insights" aria-label="Destaques">${ins.map(([ic, c, txt]) => `<div class="ins"><span class="ic" style="background:color-mix(in srgb, ${c} 15%, transparent);color:${c}">${icon(ic)}</span><p>${txt}</p></div>`).join("")}</div>
+      <div class="gm"><span>${icon("spark")}</span>Seu gerente diz</div>
+      <div class="insights" aria-label="Destaques do seu gerente">${ins.map(([ic, c, txt]) => `<div class="ins"><span class="ic" style="background:color-mix(in srgb, ${c} 15%, transparent);color:${c}">${icon(ic)}</span><p>${txt}</p></div>`).join("")}</div>
 
       <section class="panel">
         <div class="ph"><h2>Pra onde foi</h2><small>gastos de ${MESES[m - 1]}</small></div>
@@ -592,7 +595,7 @@ function viewAjustes() {
       <div class="ph"><h2>Preferências</h2></div>
       <div class="setrow"><div class="grow"><b>Aparência</b><small>Claro, escuro ou igual ao celular</small></div><div class="seg" role="group" aria-label="Aparência">${[["auto", "Auto"], ["light", "Claro"], ["dark", "Escuro"]].map(([k, l]) => `<button data-theme-set="${k}" aria-pressed="${theme === k}">${l}</button>`).join("")}</div></div>
       <div class="setrow"><div class="grow"><b>Seus dados</b><small>${online ? "Salvos na nuvem, só você vê." : "Abra pelo claude.ai logado pra salvar na nuvem."}</small></div></div>
-      <div class="setrow"><div class="grow"><b>Lançar pelo chat</b><small>Mande pro Claude: "almoço 32 no débito, uber 18". Ele lança aqui pra você.</small></div></div>
+      <div class="setrow"><div class="grow"><b>Fale com seu gerente</b><small>Mande pro Claude: "almoço 32 no débito, uber 18". Ele lança aqui pra você.</small></div></div>
       ${entries.some(e => e.exemplo) ? `<div class="setrow"><div class="grow"><b>Lançamentos de exemplo</b><small>Tire os exemplos quando começar pra valer</small></div><button class="btn danger sm" data-act="clear-ex">Apagar</button></div>` : ""}
     </section>
   </div>`;
