@@ -224,6 +224,59 @@ main { min-width: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); pa
 .banner span { display: flex; gap: 10px; align-items: center; }
 .banner span i { width: 8px; height: 8px; border-radius: 50%; background: var(--moeda); box-shadow: 0 0 0 4px color-mix(in srgb, var(--moeda) 25%, transparent); flex: none; }
 
+/* reserva (cofre) */
+.gearb { width: 42px; height: 42px; border-radius: 50%; background: var(--surface); box-shadow: var(--shadow-1); display: grid; place-items: center; color: var(--muted); }
+.top-r { display: flex; align-items: center; gap: 8px; }
+@media (min-width: 980px) { .gearb { display: none; } }
+.vault { position: relative; overflow: hidden; border-radius: 30px; padding: 24px; color: #F6F1E4; border: 1px solid rgba(242,179,61,.2);
+  background: radial-gradient(90% 120% at 100% 0%, #3A3015 0%, transparent 55%), radial-gradient(70% 80% at 0% 100%, #173A2E 0%, transparent 70%), linear-gradient(160deg, #121D18 0%, #0A110E 100%); box-shadow: var(--shadow-2); }
+.vault::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(115deg, rgba(242,179,61,.04) 0 1px, transparent 1px 12px); -webkit-mask: linear-gradient(90deg, transparent, #000 60%); mask: linear-gradient(90deg, transparent, #000 60%); }
+.vault > * { position: relative; z-index: 1; }
+.v-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.v-l { display: flex; gap: 8px; align-items: center; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: #D9C38F; }
+.v-l svg { width: 17px; height: 17px; }
+.v-edit { font-size: 12.5px; font-weight: 600; color: #F6F1E4; background: rgba(255,255,255,.07); padding: 7px 13px; border-radius: 99px; border: 1px solid rgba(242,179,61,.28); }
+.v-edit:hover { background: rgba(255,255,255,.12); }
+.v-body { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-top: 20px; flex-wrap: wrap; }
+.v-cap { font-size: 13px; color: rgba(246,241,228,.6); }
+.v-big { font-family: var(--f-display); font-weight: 800; font-size: clamp(42px, 10.5vw, 60px); letter-spacing: -.045em; line-height: 1.05; margin-top: 4px; font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #FFE7AE 0%, #F2B33D 55%, #C98A16 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.v-big .c { opacity: .75; }
+.v-sub { font-size: 13.5px; color: rgba(246,241,228,.75); margin-top: 8px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.v-sub b { color: #F6D88A; font-weight: 700; }
+.v-ring { width: 116px; height: 116px; position: relative; flex: none; }
+.v-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.v-ring circle { transition: stroke-dasharray 1s var(--ease); }
+.v-ring div { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.v-ring b { font-family: var(--f-num); font-size: 21px; color: #F6F1E4; font-weight: 600; }
+.v-ring small { font-size: 10.5px; color: rgba(246,241,228,.6); letter-spacing: .04em; }
+.v-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
+.btn.glass { background: rgba(255,255,255,.07); color: #F6F1E4; border: 1px solid rgba(255,255,255,.14); }
+.btn.glass:hover { background: rgba(255,255,255,.12); }
+.advice { display: grid; gap: 14px; }
+.advice p { margin: 0; color: var(--muted); font-size: 14.5px; }
+.advice p b { color: var(--ink); }
+.amts { display: flex; flex-wrap: wrap; gap: 8px; }
+.amt-chip { padding: 9px 14px; border-radius: 14px; background: color-mix(in srgb, var(--moeda) 14%, var(--surface)); border: 1px solid color-mix(in srgb, var(--moeda) 40%, transparent); font-weight: 700; font-size: 13.5px; display: grid; gap: 1px; text-align: left; }
+.amt-chip small { font-size: 11px; color: var(--muted); font-weight: 600; }
+.amt-chip:hover { background: color-mix(in srgb, var(--moeda) 24%, var(--surface)); }
+.evo { position: relative; height: 150px; margin-top: 30px; }
+.evo svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.evo .dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: var(--moeda); border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--moeda); transform: translate(-50%, -50%); }
+.evo .tip { position: absolute; transform: translate(-100%, -150%); font-size: 12px; font-weight: 700; background: var(--ink); color: var(--bg); padding: 3px 8px; border-radius: 8px; white-space: nowrap; }
+.evo-x { display: flex; justify-content: space-between; font-size: 11px; color: var(--faint); margin-top: 8px; text-transform: capitalize; }
+.res-tile { display: grid; grid-template-columns: 42px minmax(0,1fr) auto; gap: 14px; align-items: center; text-align: left; width: 100%; padding: 18px 20px;
+  background: linear-gradient(160deg, #121D18, #0A110E); color: #F6F1E4; border: 1px solid rgba(242,179,61,.2); }
+.res-tile .cic { background: rgba(242,179,61,.14); color: var(--moeda); }
+.res-tile small { display: block; font-size: 12px; color: rgba(246,241,228,.6); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.res-tile b { font-family: var(--f-display); font-size: 22px; letter-spacing: -.03em; color: #F6D88A; }
+.res-tile span.r { font-size: 12.5px; color: rgba(246,241,228,.7); text-align: right; display: flex; align-items: center; gap: 4px; }
+.cic.gold { background: color-mix(in srgb, var(--moeda) 18%, transparent); color: var(--warn); }
+.cic.ink { background: var(--surface-2); color: var(--muted); }
+.amt.gold { color: var(--warn); }
+.kind button[aria-pressed="true"][data-k="guardar"] { background: var(--surface); color: var(--warn); box-shadow: var(--shadow-1); }
+.kind button[aria-pressed="true"][data-k="resgatar"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-1); }
+
 /* barra de abas (celular) */
 .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 8px max(14px, env(safe-area-inset-left, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(14px, env(safe-area-inset-right, 0px)); background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); border-top: 1px solid var(--line); }
 .tabbar-in { max-width: 520px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); align-items: center; }
@@ -295,6 +348,7 @@ main { min-width: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); pa
     <div class="logo"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#mark"/></svg>trocado</div>
     <button class="nav" data-tab="inicio"></button>
     <button class="nav" data-tab="extrato"></button>
+    <button class="nav" data-tab="reserva"></button>
     <button class="nav" data-tab="metas"></button>
     <button class="nav" data-tab="ajustes"></button>
     <button class="btn gold cta" data-add>Lançar</button>
@@ -304,10 +358,13 @@ main { min-width: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); pa
   <main>
     <header class="top">
       <div class="hello"><small id="greet">Olá</small><b id="title">Início</b></div>
+      <div class="top-r">
       <div class="mpill" role="group" aria-label="Mês">
         <button id="prev" aria-label="Mês anterior"><svg class="i" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
         <span id="mlabel">—</span>
         <button id="next" aria-label="Próximo mês"><svg class="i" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+      <button class="gearb" data-go="ajustes" aria-label="Ajustes"><svg class="i" viewBox="0 0 24 24" id="gearIc"></svg></button>
       </div>
     </header>
     <div id="view"></div>
@@ -319,8 +376,8 @@ main { min-width: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); pa
     <button class="tab" data-tab="inicio"></button>
     <button class="tab" data-tab="extrato"></button>
     <button class="plus" data-add aria-label="Lançar"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="tab" data-tab="reserva"></button>
     <button class="tab" data-tab="metas"></button>
-    <button class="tab" data-tab="ajustes"></button>
   </div>
 </nav>
 <div id="layer"></div>
@@ -363,6 +420,7 @@ const P = {
   spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>',
   flag: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
   cal: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  vault: '<rect x="3" y="4" width="18" height="15" rx="3"/><circle cx="12" cy="11.5" r="3.5"/><path d="M12 8V6.5M12 16.5V15M15.5 11.5H17M7 11.5h1.5M7 19v1.5M17 19v1.5"/>',
   trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
 };
 const icon = (k, cls = "i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[k] || P.tag}</svg>`;
@@ -383,7 +441,7 @@ const DEFAULT_CATS = [
 ].map(([id, nome, tipo]) => ({ id, nome, tipo, previsto: 0 }));
 const ROLE = ["rua", "ifood", "bar"];
 const PAGTOS = ["Pix", "Débito", "Crédito", "Dinheiro", "Boleto"];
-const TABS = { inicio: ["Início", "grid"], extrato: ["Extrato", "list"], metas: ["Metas", "target"], ajustes: ["Ajustes", "gear"] };
+const TABS = { inicio: ["Início", "grid"], extrato: ["Extrato", "list"], reserva: ["Reserva", "vault"], metas: ["Metas", "target"], ajustes: ["Ajustes", "gear"] };
 
 /* ---------- estado ---------- */
 const pad = n => String(n).padStart(2, "0");
@@ -393,6 +451,7 @@ const today = new Date();
 let cats = DEFAULT_CATS.slice(), entries = [];
 let ym = iso(today).slice(0, 7), tab = "inicio", filter = "all", q = "";
 let db = null, online = false, loaded = false;
+let reserva = [], resCfg = { meta: 0, nome: "Reserva" };
 const shown = { saldo: 0 };
 
 const $ = id => document.getElementById(id);
@@ -428,6 +487,7 @@ function frame() {
   const h = today.getHours();
   $("greet").textContent = (h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite") + ", Murillo";
   $("title").textContent = TABS[tab][0];
+  $("gearIc").innerHTML = P.gear;
   const [y, m] = ym.split("-").map(Number);
   $("mlabel").textContent = MESES[m - 1] + " " + y;
   $("sync").innerHTML = `<span style="width:7px;height:7px;border-radius:50%;background:${online ? "var(--in)" : "var(--warn)"}"></span>${online ? "Salvo na nuvem" : "Só neste aparelho"}`;
@@ -436,7 +496,7 @@ function frame() {
 function render() {
   frame();
   const v = $("view");
-  v.innerHTML = tab === "inicio" ? viewInicio() : tab === "extrato" ? viewExtrato() : tab === "metas" ? viewMetas() : viewAjustes();
+  v.innerHTML = tab === "inicio" ? viewInicio() : tab === "extrato" ? viewExtrato() : tab === "reserva" ? viewReserva() : tab === "metas" ? viewMetas() : viewAjustes();
   v.classList.remove("view"); void v.offsetWidth; v.classList.add("view");
   after();
 }
@@ -513,6 +573,7 @@ function viewInicio() {
     </div>
 
     <div class="stack">
+      ${resTile()}
       <section class="panel">
         <div class="ph"><h2>Semana a semana</h2><small>gastos, seg a dom</small></div>
         <div class="weeks">${ws.map((w, i) => { const now = iso(w.a) <= t && t <= iso(w.b); return `<div class="wk${now ? " now" : ""}" title="${esc(money(wv[i]))}"><span class="v num">${wv[i] ? esc(short(wv[i]).replace("R$ ", "")) : ""}</span><div class="bh" data-h="${Math.max(4, wv[i] / wmax * 100)}" style="height:4%"></div><small>${w.a.getDate()}–${w.b.getDate()}</small></div>`; }).join("")}</div>
@@ -724,6 +785,172 @@ function openGoal(id) {
   };
 }
 
+/* ---------- Reserva ---------- */
+const resSign = r => (r.tipo === "resgatar" ? -1 : 1) * (+r.valor || 0);
+function resStats(month) {
+  const total = reserva.filter(r => (r.data || "") <= month + "-31").reduce((s, r) => s + resSign(r), 0);
+  const ml = reserva.filter(r => (r.data || "").startsWith(month));
+  const guardou = ml.filter(r => r.tipo !== "resgatar").reduce((s, r) => s + (+r.valor || 0), 0);
+  const resgatou = ml.filter(r => r.tipo === "resgatar").reduce((s, r) => s + (+r.valor || 0), 0);
+  return { total, guardou, resgatou };
+}
+function resTile() {
+  const R = resStats(ym);
+  return `<button class="panel res-tile" data-go="reserva"><span class="cic">${icon("vault")}</span><div><small>${esc(resCfg.nome || "Reserva")}</small><b class="num">${esc(money(R.total))}</b></div><span class="r">${R.guardou ? "+" + esc(short(R.guardou)) + " em " + mName(ym).slice(0, 3) : "Guardar"}${icon("chev")}</span></button>`;
+}
+function resRow(r) {
+  const g = r.tipo !== "resgatar";
+  const dl = parseISO(r.data).toLocaleDateString("pt-BR", { day: "numeric", month: "short" });
+  return `<button class="tx" data-rid="${esc(r.id)}"><span class="cic ${g ? "gold" : "ink"}">${icon(g ? "down" : "up")}</span><div class="t"><b>${esc(r.nota || (g ? "Guardado" : "Resgatado"))}</b><span>${g ? "Guardou" : "Resgatou"} · ${esc(dl)}</span></div><span class="amt num${g ? " gold" : ""}">${g ? "+" : "−"}${esc(money(+r.valor || 0))}</span></button>`;
+}
+function viewReserva() {
+  const R = resStats(ym), S = stats(ym);
+  const meta = +resCfg.meta || 0, p = meta ? Math.max(0, Math.min(1, R.total / meta)) : 0;
+  const isCur = ym === iso(today).slice(0, 7);
+  const livre = S.saldo - R.guardou + R.resgatou;
+  const C = 2 * Math.PI * 50;
+  const ring = meta ? `<div class="v-ring" aria-label="${Math.round(p * 100)}% da meta"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="9"/><circle cx="60" cy="60" r="50" fill="none" stroke="url(#gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${(p * C).toFixed(1)} ${C.toFixed(1)}"/><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE3A1"/><stop offset="1" stop-color="#E39B1E"/></linearGradient></defs></svg><div><b>${Math.round(p * 100)}%</b><small>da meta</small></div></div>` : "";
+
+  // conselho do gerente
+  let advice;
+  if (livre > 1) {
+    const opts = [["10% da sobra", Math.round(livre * 0.10)], ["20% da sobra", Math.round(livre * 0.20)], ["Tudo que sobrou", Math.floor(livre)]].filter(o => o[1] > 0);
+    advice = `<p>Em ${mName(ym)} sobrou <b>${esc(money(S.saldo))}</b>${R.guardou ? ` e você já guardou <b>${esc(money(R.guardou))}</b>` : ""}. Ainda tem <b>${esc(money(livre))}</b> livre. Que tal guardar mais um pouco?</p>
+      <div class="amts">${opts.map(([l, v]) => `<button class="amt-chip" data-res="guardar" data-cents="${v * 100}"><small>${l}</small><span class="num">${esc(money(v))}</span></button>`).join("")}</div>`;
+  } else if (R.guardou > 0) advice = `<p>Você guardou <b>${esc(money(R.guardou))}</b> em ${mName(ym)}, tudo o que dava. Isso é postura de quem tem gerente.</p>`;
+  else if (S.list.length) advice = `<p>Em ${mName(ym)} não sobrou pra guardar. Sem problema: a reserva existe justamente pra segurar meses assim.</p>`;
+  else advice = `<p>Lance seus ganhos e gastos de ${mName(ym)} que eu te digo quanto dá pra guardar.</p>`;
+  if (meta && R.total < meta && R.total > 0) {
+    const media = (() => { const ms = [...new Set(reserva.filter(r => r.tipo !== "resgatar").map(r => r.data.slice(0, 7)))]; return ms.length ? reserva.filter(r => r.tipo !== "resgatar").reduce((s, r) => s + (+r.valor || 0), 0) / ms.length : 0; })();
+    if (media > 0) advice += `<p>Guardando uns <b>${esc(short(media))}</b> por mês, como você vem fazendo, a meta chega em <b>${Math.ceil((meta - R.total) / media)} ${Math.ceil((meta - R.total) / media) === 1 ? "mês" : "meses"}</b>.</p>`;
+  }
+
+  // evolução
+  const first = reserva.map(r => (r.data || "").slice(0, 7)).filter(Boolean).sort()[0] || ym;
+  let start = first > shiftYm(ym, -11) ? first : shiftYm(ym, -11);
+  if (start > ym) start = ym;
+  const months = []; for (let m = start; m <= ym; m = shiftYm(m, 1)) months.push(m);
+  if (months.length === 1) months.unshift(shiftYm(ym, -1));
+  const vals = months.map(m => Math.max(0, resStats(m).total));
+  const max = Math.max(1, ...vals, meta && meta <= Math.max(...vals) * 1.4 ? meta : 0);
+  const X = i => i / (months.length - 1) * 100, Y = v => 100 - v / max * 86 - 6;
+  const line = vals.map((v, i) => `${i ? "L" : "M"}${X(i).toFixed(2)},${Y(v).toFixed(2)}`).join(" ");
+  const last = vals.length - 1;
+  const evo = R.total > 0 || reserva.length ? `<div class="evo"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2B33D" stop-opacity=".35"/><stop offset="1" stop-color="#F2B33D" stop-opacity="0"/></linearGradient></defs>
+      ${[25, 50, 75].map(y => `<line x1="0" x2="100" y1="${y}" y2="${y}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke"/>`).join("")}
+      ${meta && meta <= max ? `<line x1="0" x2="100" y1="${Y(meta)}" y2="${Y(meta)}" stroke="var(--warn)" stroke-dasharray="4 4" stroke-width="1.2" vector-effect="non-scaling-stroke"/>` : ""}
+      <path d="${line} L100,100 L0,100 Z" fill="url(#ga)"/>
+      <path d="${line}" fill="none" stroke="#E9A92A" stroke-width="2.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>
+      <span class="dot" style="left:${X(last)}%;top:${Y(vals[last])}%"></span><span class="tip num" style="left:${X(last)}%;top:${Y(vals[last])}%">${esc(short(vals[last]))}</span></div>
+      <div class="evo-x">${months.map((m, i) => (i === 0 || i === last || (months.length > 4 && i === Math.floor(last / 2))) ? `<span>${mName(m).slice(0, 3)}</span>` : "").join("")}</div>
+      ${meta && meta <= max ? `<p class="muted" style="font-size:12px;margin:8px 0 0">Linha tracejada: meta de ${esc(short(meta))}</p>` : ""}`
+    : emptyBox("Seu cofre ainda está vazio", "Toque em Guardar pra colocar a primeira quantia.");
+
+  // histórico
+  const hist = reserva.slice().sort((a, b) => b.data.localeCompare(a.data) || String(b.criadoEm || "").localeCompare(String(a.criadoEm || "")));
+  const groups = {}; for (const r of hist) (groups[r.data.slice(0, 7)] ||= []).push(r);
+
+  return `<div class="cols">
+    <div class="stack">
+      <section class="vault" aria-label="Sua reserva">
+        <div class="v-top"><span class="v-l">${icon("vault")}${esc(resCfg.nome || "Reserva")}</span><button class="v-edit" data-act="res-meta">${meta ? "Meta " + esc(short(meta)) : "Definir meta"}</button></div>
+        <div class="v-body"><div><div class="v-cap">${isCur ? "Guardado até hoje" : "Guardado até o fim de " + mName(ym)}</div><div class="v-big">${bigMoney(R.total)}</div>
+          <div class="v-sub">${R.guardou ? `<b>+${esc(money(R.guardou))}</b> em ${mName(ym)}` : `Nada guardado em ${mName(ym)} ainda`}${R.resgatou ? ` · resgatou ${esc(money(R.resgatou))}` : ""}</div></div>${ring}</div>
+        <div class="v-actions"><button class="btn gold" data-res="guardar">${icon("down")}Guardar</button><button class="btn glass" data-res="resgatar">${icon("up")}Resgatar</button></div>
+      </section>
+      <div class="gm"><span>${icon("spark")}</span>Seu gerente diz</div>
+      <section class="panel advice">${advice}</section>
+    </div>
+    <div class="stack">
+      <section class="panel"><div class="ph"><h2>Evolução</h2><small>saldo guardado por mês</small></div>${evo}</section>
+      <section class="panel"><div class="ph"><h2>Movimentações</h2><small>${reserva.length} no total</small></div>
+        ${hist.length ? Object.keys(groups).map(m => { const it = groups[m], net = it.reduce((s, r) => s + resSign(r), 0); const [yy] = m.split("-"); return `<div class="day"><div class="day-h"><span>${mName(m)} ${yy}</span><span class="num">${net >= 0 ? "+" : "−"}${esc(money(Math.abs(net)))}</span></div>${it.map(resRow).join("")}</div>`; }).join("") : emptyBox("Nenhuma movimentação", "O que você guardar ou resgatar aparece aqui.")}
+      </section>
+    </div>
+  </div>`;
+}
+function openRes(entry, preset) {
+  const editing = !!entry;
+  const st = { tipo: entry?.tipo || preset?.tipo || "guardar", cents: entry ? Math.round(+entry.valor * 100) : (preset?.cents || 0), data: entry?.data || (ym === iso(today).slice(0, 7) ? iso(today) : ym + "-01") };
+  const disp = reserva.filter(r => r.id !== entry?.id).reduce((s, r) => s + resSign(r), 0);
+  const yest = new Date(today); yest.setDate(today.getDate() - 1);
+  $("layer").innerHTML = `<div class="scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rT">
+    <div class="grab"></div>
+    <div class="sh"><h3 id="rT" style="display:flex;gap:10px;align-items:center"><span class="cic sm gold">${icon("vault")}</span>${editing ? "Editar movimentação" : esc(resCfg.nome || "Reserva")}</h3><button class="x" id="shX" aria-label="Fechar"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="kind" role="group" aria-label="Tipo">${[["guardar", "Guardar", "down"], ["resgatar", "Resgatar", "up"]].map(([k, l, ic]) => `<button data-k="${k}">${icon(ic)}${l}</button>`).join("")}</div>
+    <label class="amount"><div class="disp" id="disp"></div><input id="amt" inputmode="numeric" autocomplete="off" aria-label="Valor em reais"><div class="hint" id="rHint"></div></label>
+    <div class="lbl">Quando</div>
+    <div class="chips" id="when"><button class="chip" data-d="${iso(today)}">Hoje</button><button class="chip" data-d="${iso(yest)}">Ontem</button><label class="chip" id="dchip">${icon("cal")}<input type="date" id="dpick" value="${esc(st.data)}" aria-label="Escolher data"></label></div>
+    <div class="lbl">Anotação <span style="text-transform:none;letter-spacing:0;font-weight:500">(opcional)</span></div>
+    <input class="text" id="nota" placeholder="Ex.: sobra de outubro" value="${esc(entry?.nota || "")}">
+    <div class="err" id="rErr"></div>
+    <div class="actions">${editing ? `<button class="btn danger" id="rDel">${icon("trash")}</button>` : ""}<button class="btn gold" id="rSave"></button></div>
+  </div></div>`;
+  const draw = () => {
+    document.querySelectorAll(".kind button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === st.tipo));
+    const d = $("disp"); d.innerHTML = `<small>R$</small>${esc(money(st.cents / 100).replace("R$", "").trim())}`; d.classList.toggle("zero", !st.cents);
+    d.style.color = st.cents && st.tipo === "guardar" ? "var(--warn)" : "";
+    $("rHint").textContent = st.tipo === "resgatar" ? "Disponível no cofre: " + money(disp) : "Digite só os números: 30000 vira R$ 300,00";
+    $("rSave").textContent = editing ? "Salvar" : st.tipo === "guardar" ? "Guardar no cofre" : "Resgatar do cofre";
+    let hit = false; document.querySelectorAll("#when [data-d]").forEach(b => { const on = b.dataset.d === st.data; hit ||= on; b.setAttribute("aria-pressed", on); }); $("dchip").setAttribute("aria-pressed", !hit); $("dpick").value = st.data;
+  };
+  draw(); $("amt").value = st.cents ? String(st.cents) : "";
+  $("amt").oninput = e => { const dg = e.target.value.replace(/\D/g, "").replace(/^0+/, "").slice(0, 9); e.target.value = dg; st.cents = +dg || 0; $("rErr").textContent = ""; draw(); };
+  document.querySelector(".kind").onclick = e => { const b = e.target.closest("button"); if (!b) return; st.tipo = b.dataset.k; draw(); };
+  $("when").onclick = e => { const b = e.target.closest("[data-d]"); if (!b) return; st.data = b.dataset.d; draw(); };
+  $("dpick").onchange = e => { if (e.target.value) { st.data = e.target.value; draw(); } };
+  $("shX").onclick = closeLayer; $("scrim").onclick = e => { if (e.target.id === "scrim") closeLayer(); };
+  if (!editing) setTimeout(() => $("amt").focus(), 80);
+  $("rSave").onclick = async () => {
+    if (!st.cents) { $("rErr").textContent = "Digite o valor."; return $("amt").focus(); }
+    if (st.tipo === "resgatar" && st.cents / 100 > disp + 0.001) { $("rErr").textContent = "O cofre tem só " + money(disp) + " pra resgatar."; return; }
+    const doc = { data: st.data, tipo: st.tipo, valor: st.cents / 100, nota: $("nota").value.trim(), criadoEm: entry?.criadoEm || new Date().toISOString() };
+    $("rSave").disabled = true;
+    try { await saveRes(entry?.id, doc); closeLayer(); toast(editing ? "Movimentação atualizada" : (doc.tipo === "guardar" ? "Guardou " : "Resgatou ") + money(doc.valor)); if (doc.data.slice(0, 7) !== ym) { ym = doc.data.slice(0, 7); render(); } }
+    catch { $("rErr").textContent = "Não salvou. Confira a internet e tente de novo."; $("rSave").disabled = false; }
+  };
+  if (editing) {
+    let armed = false;
+    $("rDel").onclick = async () => {
+      if (!armed) { armed = true; $("rDel").classList.add("armed"); $("rDel").innerHTML = icon("trash") + "Apagar?"; return; }
+      try { const { id, ...body } = entry; await removeRes(id); closeLayer(); toast("Movimentação apagada", () => saveRes(id, body).catch(() => toast("Não deu pra desfazer"))); }
+      catch { $("rErr").textContent = "Não apagou. Tente de novo."; }
+    };
+  }
+}
+function openResMeta() {
+  let cents = Math.round((+resCfg.meta || 0) * 100), nome = resCfg.nome || "Reserva";
+  const sug = ["Reserva de emergência", "Investimentos", "Viagem", "Carro", "Casa própria"];
+  $("layer").innerHTML = `<div class="scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mT">
+    <div class="grab"></div>
+    <div class="sh"><h3 id="mT">Seu cofre</h3><button class="x" id="shX" aria-label="Fechar"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="lbl" style="margin-top:4px">Pra que você está guardando?</div>
+    <input class="text" id="rNome" value="${esc(nome)}" placeholder="Ex.: Reserva de emergência">
+    <div class="chips" style="margin-top:10px" id="rSug">${sug.map(x => `<button class="chip" data-n="${esc(x)}">${esc(x)}</button>`).join("")}</div>
+    <div class="lbl">Meta</div>
+    <label class="amount" style="padding-top:8px"><div class="disp" id="disp"></div><input id="amt" inputmode="numeric" autocomplete="off" aria-label="Meta em reais"><div class="hint">Deixe zerado pra guardar sem meta</div></label>
+    <div class="err" id="mErr"></div>
+    <div class="actions"><button class="btn gold" id="mSave">Salvar</button></div>
+  </div></div>`;
+  const draw = () => { const d = $("disp"); d.innerHTML = `<small>R$</small>${esc(money(cents / 100).replace("R$", "").trim())}`; d.classList.toggle("zero", !cents); };
+  draw(); $("amt").value = cents ? String(cents) : "";
+  $("amt").oninput = e => { const dg = e.target.value.replace(/\D/g, "").replace(/^0+/, "").slice(0, 10); e.target.value = dg; cents = +dg || 0; draw(); };
+  $("rSug").onclick = e => { const b = e.target.closest("[data-n]"); if (b) $("rNome").value = b.dataset.n; };
+  $("shX").onclick = closeLayer; $("scrim").onclick = e => { if (e.target.id === "scrim") closeLayer(); };
+  $("mSave").onclick = async () => {
+    $("mSave").disabled = true;
+    try { await saveResCfg({ nome: $("rNome").value.trim() || "Reserva", meta: cents / 100 }); closeLayer(); toast("Cofre atualizado"); }
+    catch { $("mErr").textContent = "Não salvou. Tente de novo."; $("mSave").disabled = false; }
+  };
+}
+async function saveRes(id, doc) {
+  if (db) { if (id) await db.collection("reserva").doc(id).set(doc); else await db.collection("reserva").add(doc); }
+  else { if (id) { const i = reserva.findIndex(r => r.id === id); if (i >= 0) reserva[i] = { id, ...doc }; else reserva.push({ id, ...doc }); } else reserva.push({ id: "r" + Date.now(), ...doc }); render(); }
+}
+async function removeRes(id) { if (db) await db.collection("reserva").doc(id).delete(); else { reserva = reserva.filter(r => r.id !== id); render(); } }
+async function saveResCfg(cfg) { if (db) await db.doc("config/reserva").set(cfg); else { resCfg = cfg; render(); } }
+
 /* ---------- dados ---------- */
 async function saveEntry(id, doc) {
   if (db) { if (id) await db.collection("lancamentos").doc(id).set(doc); else await db.collection("lancamentos").add(doc); }
@@ -738,6 +965,8 @@ document.addEventListener("click", async e => {
   const tb = t.closest("[data-tab]"); if (tb) { tab = tb.dataset.tab; draft = null; render(); scrollTo({ top: 0, behavior: "smooth" }); return; }
   const go = t.closest("[data-go]"); if (go) { tab = go.dataset.go; render(); scrollTo({ top: 0 }); return; }
   if (t.closest("[data-add]")) return openEntry(null);
+  const rr = t.closest("[data-rid]"); if (rr) { const r = reserva.find(x => x.id === rr.dataset.rid); if (r) openRes(r); return; }
+  const rs = t.closest("[data-res]"); if (rs) return openRes(null, { tipo: rs.dataset.res, cents: +rs.dataset.cents || 0 });
   const tx = t.closest(".tx"); if (tx) { const en = entries.find(x => x.id === tx.dataset.id); if (en) openEntry(en); return; }
   const g = t.closest("[data-goal]"); if (g) return openGoal(g.dataset.goal);
   const f = t.closest("[data-f]"); if (f) { filter = f.dataset.f; render(); return; }
@@ -745,6 +974,7 @@ document.addEventListener("click", async e => {
   const ti = t.closest("[data-ti]"); if (ti) { draft[+ti.dataset.ti].tipo = ti.dataset.tv; render(); return; }
   const rm = t.closest("[data-rm]"); if (rm) { draft.splice(+rm.dataset.rm, 1); render(); return; }
   const act = t.closest("[data-act]")?.dataset.act;
+  if (act === "res-meta") return openResMeta();
   if (act === "add-cat") { draft.push({ id: "c" + Date.now().toString(36), nome: "", tipo: "Gasto", previsto: 0 }); render(); const ins = document.querySelectorAll("#catlist input"); ins[ins.length - 1]?.focus(); }
   if (act === "reset-cat") { draft = null; render(); }
   if (act === "save-cat") {
@@ -776,6 +1006,8 @@ render();
   if (!db) return render();
   online = true;
   db.doc("config/categorias").onSnapshot(s => { const l = s.exists ? s.data().lista : null; if (Array.isArray(l) && l.length) cats = l.map(c => ({ ...c })); if (tab !== "ajustes") render(); else frame(); }, () => {});
+  db.doc("config/reserva").onSnapshot(s => { if (s.exists) resCfg = { meta: 0, nome: "Reserva", ...s.data() }; if (tab !== "ajustes") render(); }, () => {});
+  db.collection("reserva").limit(1000).onSnapshot(s => { reserva = s.docs.map(d => ({ id: d.id, ...d.data() })); if (!(tab === "ajustes" && draft) && !document.querySelector("#q:focus")) render(); }, () => {});
   db.collection("lancamentos").limit(1000).onSnapshot(s => { entries = s.docs.map(d => ({ id: d.id, ...d.data() })); loaded = true; if (!(tab === "ajustes" && draft) && !document.querySelector("#q:focus")) render(); }, () => { online = false; render(); });
 })();
 })();
