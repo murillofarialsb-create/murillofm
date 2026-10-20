@@ -1,0 +1,319 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ultra&family=Yesteryear&family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@1,600;1,800&display=swap">
+<style>body{margin:0;background:transparent} svg{display:block}</style></head><body>
+<div id="out"></div>
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+let U = 0; const uid = p => p + (++U);
+const F = { ultra: "Ultra, serif", script: "Yesteryear, cursive", osw: "Oswald, sans-serif", it: "'Playfair Display', serif" };
+function rnd(seed){ let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+const R = rnd(42);
+const deg = a => a * Math.PI / 180;
+
+function arcText(txt, cx, cy, r, o){
+  const id = uid('a');
+  const top = o.top !== false;
+  const d = top ? `M${cx-r},${cy} A${r},${r} 0 0 1 ${cx+r},${cy}` : `M${cx-r},${cy} A${r},${r} 0 0 0 ${cx+r},${cy}`;
+  return `<path id="${id}" d="${d}" fill="none"/><text font-family="${o.font}" font-size="${o.size}" letter-spacing="${o.ls||0}" fill="${o.fill}" ${o.weight?`font-weight="${o.weight}"`:''} ${o.stroke?`stroke="${o.stroke}" stroke-width="${o.sw}" paint-order="stroke"`:''}><textPath href="#${id}" startOffset="50%" text-anchor="middle">${txt}</textPath></text>`;
+}
+function circleText(txt, cx, cy, r, o){
+  const id = uid('c');
+  const d = `M${cx},${cy-r} A${r},${r} 0 1 1 ${cx-0.01},${cy-r}`;
+  return `<path id="${id}" d="${d}" fill="none"/><text font-family="${o.font}" font-size="${o.size}" letter-spacing="${o.ls||0}" fill="${o.fill}" font-weight="${o.weight||400}"><textPath href="#${id}" textLength="${(2*Math.PI*r*0.995).toFixed(1)}" lengthAdjust="spacing">${txt}</textPath></text>`;
+}
+function hatch(clipD, x, y, w, h, ang, gap, sw, ink){
+  const id = uid('h'); let s = `<clipPath id="${id}"><path d="${clipD}"/></clipPath><g clip-path="url(#${id})" stroke="${ink}" stroke-width="${sw}">`;
+  const L = w + h; const c = Math.cos(deg(ang)), sn = Math.sin(deg(ang));
+  for (let t = -L; t < L; t += gap){
+    const cx = x + w/2 + t * -sn, cy = y + h/2 + t * c;
+    s += `<line x1="${cx - c*L}" y1="${cy - sn*L}" x2="${cx + c*L}" y2="${cy + sn*L}"/>`;
+  }
+  return s + '</g>';
+}
+function wheel(cx, cy, o){
+  const {tireO, tireI, rim, hub, n, ink, paper} = o;
+  let s = `<g stroke="${ink}" fill="none">`;
+  s += `<circle cx="${cx}" cy="${cy}" r="${tireO}" stroke-width="${o.sw||4}"/><circle cx="${cx}" cy="${cy}" r="${tireI}" stroke-width="${(o.sw||4)*0.8}"/>`;
+  const step = o.tread || 3;
+  for (let a = 0; a < 360; a += step){
+    const c = Math.cos(deg(a)), sn = Math.sin(deg(a));
+    const r1 = tireI + 2, r2 = tireO - 2 - ((a/step)%2 ? (tireO-tireI)*0.35 : 0);
+    s += `<line x1="${cx + c*r1}" y1="${cy + sn*r1}" x2="${cx + c*r2}" y2="${cy + sn*r2}" stroke-width="${o.tsw||1.6}"/>`;
+  }
+  s += `<circle cx="${cx}" cy="${cy}" r="${rim}" stroke-width="${o.rsw||3}"/><circle cx="${cx}" cy="${cy}" r="${rim-4}" stroke-width="1.2"/>`;
+  for (let i = 0; i < n; i++){
+    const a = i * 2 * Math.PI / n, off = (i % 2 ? 1 : -1) * (o.lace || 0.42);
+    const hr = hub * 0.75;
+    s += `<line x1="${cx + Math.cos(a)*hr}" y1="${cy + Math.sin(a)*hr}" x2="${cx + Math.cos(a+off)*(rim-4)}" y2="${cy + Math.sin(a+off)*(rim-4)}" stroke-width="${o.ssw||1.3}"/>`;
+  }
+  s += `</g><circle cx="${cx}" cy="${cy}" r="${hub}" fill="${ink}"/><circle cx="${cx}" cy="${cy}" r="${hub*0.4}" fill="${paper}"/>`;
+  return s;
+}
+function sprocket(cx, cy, r, teeth, ink, paper){
+  let pts = [];
+  for (let i = 0; i < teeth*2; i++){ const a = i*Math.PI/teeth; const rr = i%2 ? r : r*0.86; pts.push(`${cx+Math.cos(a)*rr},${cy+Math.sin(a)*rr}`); }
+  let s = `<polygon points="${pts.join(' ')}" fill="${ink}"/><circle cx="${cx}" cy="${cy}" r="${r*0.62}" fill="${paper}"/>`;
+  for (let i = 0; i < 5; i++){ const a = i*2*Math.PI/5; s += `<circle cx="${cx+Math.cos(a)*r*0.42}" cy="${cy+Math.sin(a)*r*0.42}" r="${r*0.11}" fill="${ink}"/>`; }
+  return s;
+}
+function cylinder(x, y, ang, ink, paper, sc=1){
+  let s = `<g transform="translate(${x},${y}) rotate(${ang}) scale(${sc})">`;
+  s += `<rect x="-21" y="-122" width="42" height="84" fill="${paper}" stroke="${ink}" stroke-width="3"/>`;
+  for (let fy = -46; fy >= -116; fy -= 7.5){ const w = 30 + (fy < -100 ? 2 : 0); s += `<rect x="${-w}" y="${fy-2.6}" width="${w*2}" height="4.2" rx="2" fill="${ink}"/>`; }
+  s += `<path d="M-30,-122 L30,-122 L30,-140 Q30,-160 10,-162 L-10,-162 Q-30,-160 -30,-140 Z" fill="${ink}"/>`;
+  s += `<circle cx="-6" cy="-143" r="10" fill="none" stroke="${paper}" stroke-width="2.4"/><circle cx="-6" cy="-143" r="3" fill="${paper}"/>`;
+  s += `<line x1="16" y1="-130" x2="16" y2="-152" stroke="${paper}" stroke-width="2"/>`;
+  return s + '</g>';
+}
+// Bobber, side view facing left, box ~600x360
+function bobber(ink, paper){
+  let s = '';
+  // ground hatch
+  for (let i = 0; i < 26; i++){ const x = 40 + i*21 + R()*6; s += `<line x1="${x}" y1="${348 + (i%3)*4}" x2="${x + 10 + R()*14}" y2="${348 + (i%3)*4}" stroke="${ink}" stroke-width="2"/>`; }
+  s += wheel(120, 262, {tireO: 80, tireI: 66, rim: 60, hub: 11, n: 36, ink, paper, tread: 3.2});
+  s += wheel(474, 262, {tireO: 82, tireI: 63, rim: 57, hub: 13, n: 40, ink, paper, tread: 2.6});
+  s += sprocket(474, 262, 30, 22, ink, paper);
+  s += `<circle cx="474" cy="262" r="9" fill="${ink}"/>`;
+  // rear fender (bobbed)
+  s += `<path d="M${474+Math.cos(deg(-165))*94},${262+Math.sin(deg(-165))*94} A94,94 0 0 1 ${474+Math.cos(deg(-35))*94},${262+Math.sin(deg(-35))*94}" fill="none" stroke="${ink}" stroke-width="9"/>`;
+  s += `<rect x="${474+Math.cos(deg(-35))*94-4}" y="${262+Math.sin(deg(-35))*94-6}" width="16" height="10" rx="2" fill="${ink}" transform="rotate(55 ${474+Math.cos(deg(-35))*94} ${262+Math.sin(deg(-35))*94})"/>`;
+  // frame
+  const T = (d, w) => `<path d="${d}" fill="none" stroke="${ink}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  s += T('M196,110 L356,128', 7);
+  s += T('M198,124 L236,300 L392,302', 7);
+  s += T('M356,128 L392,302', 6.5);
+  s += T('M356,128 L474,262', 5.5);
+  s += T('M392,302 L474,262', 5.5);
+  s += T('M186,84 L202,128', 13);
+  // springer fork
+  s += T('M120,262 L190,96', 7);
+  s += T('M104,246 L166,96', 4.5);
+  s += T('M104,246 L124,262', 5);
+  let z = 'M150,138'; for (let i = 0; i < 9; i++){ z += ` L${150 + (i%2?9:-3) + i*1.4},${134 - i*4}`; } s += T(z, 2.4);
+  s += T('M160,98 L196,94', 6);
+  // headlight
+  s += `<circle cx="148" cy="122" r="17" fill="${ink}"/><circle cx="144" cy="122" r="9" fill="none" stroke="${paper}" stroke-width="2.4"/><circle cx="141" cy="119" r="2.5" fill="${paper}"/>`;
+  // ape bars
+  s += T('M190,92 L200,36 L236,30', 5.5);
+  s += T('M226,31 L252,28', 9);
+  s += T('M240,30 C250,42 244,52 232,54', 2);
+  // engine
+  const cx = 300, cy = 262;
+  s += cylinder(cx - 6, cy - 18, -24, ink, paper, 0.74);
+  s += cylinder(cx + 14, cy - 18, 24, ink, paper, 0.74);
+  s += `<ellipse cx="${cx+4}" cy="${cy+4}" rx="56" ry="38" fill="${ink}"/>`;
+  s += `<circle cx="${cx-22}" cy="${cy+2}" r="20" fill="none" stroke="${paper}" stroke-width="2.6"/>`;
+  for (let i = 0; i < 6; i++){ const a = i*Math.PI/3; s += `<circle cx="${cx-22+Math.cos(a)*14}" cy="${cy+2+Math.sin(a)*14}" r="2" fill="${paper}"/>`; }
+  s += `<path d="M${cx+20},${cy-12} L${cx+40},${cy+20}" stroke="${paper}" stroke-width="2"/>`;
+  // primary + transmission
+  s += `<rect x="${cx+30}" y="${cy-6}" width="96" height="40" rx="20" fill="${paper}" stroke="${ink}" stroke-width="4"/>`;
+  s += hatch(`M${cx+34},${cy+30} h88 v-30 h-88 Z`, cx+30, cy-6, 96, 40, 35, 5, 1.3, ink);
+  s += `<rect x="${cx+30}" y="${cy-6}" width="96" height="40" rx="20" fill="none" stroke="${ink}" stroke-width="4"/>`;
+  // air cleaner
+  s += `<circle cx="${cx+4}" cy="${cy-58}" r="17" fill="${ink}"/><circle cx="${cx+4}" cy="${cy-58}" r="10" fill="none" stroke="${paper}" stroke-width="2"/>`;
+  // tank (peanut) with hatching
+  const tank = 'M206,104 C210,66 292,58 326,98 C320,116 244,122 206,104 Z';
+  s += `<path d="${tank}" fill="${paper}"/>`;
+  s += hatch(tank, 200, 55, 130, 70, -25, 4.2, 1.5, ink);
+  s += `<path d="M216,82 C240,66 290,66 310,86" fill="none" stroke="${paper}" stroke-width="7"/>`;
+  s += `<path d="${tank}" fill="none" stroke="${ink}" stroke-width="4.5"/>`;
+  s += `<circle cx="300" cy="72" r="4" fill="${ink}"/>`;
+  // seat + springs
+  s += `<path d="M334,122 C342,100 392,96 412,110 C404,124 360,130 334,122 Z" fill="${ink}"/>`;
+  let sp = 'M396,124'; for (let i = 0; i < 8; i++){ sp += ` L${396 + (i%2?6:-6)},${128 + i*4}`; } s += T(sp, 2.2);
+  // oil tank
+  s += `<rect x="364" y="150" width="34" height="56" rx="10" fill="${ink}"/><line x1="370" y1="160" x2="370" y2="196" stroke="${paper}" stroke-width="2"/>`;
+  // exhaust (2 into 2 fishtails)
+  s += T('M254,154 C222,190 232,300 300,312 L540,304', 9);
+  s += `<path d="M254,154 C222,190 232,300 300,312 L540,304" fill="none" stroke="${paper}" stroke-width="2"/>`;
+  s += `<path d="M534,296 L566,292 L566,316 L534,312 Z" fill="${ink}"/>`;
+  s += T('M356,154 C382,190 352,282 410,290 L548,282', 9);
+  s += `<path d="M356,154 C382,190 352,282 410,290 L548,282" fill="none" stroke="${paper}" stroke-width="2"/>`;
+  s += `<path d="M542,274 L574,270 L574,294 L542,290 Z" fill="${ink}"/>`;
+  // chain
+  s += `<line x1="414" y1="276" x2="474" y2="232" stroke="${ink}" stroke-width="3" stroke-dasharray="5 3"/>`;
+  // foot control + kicker
+  s += T('M236,300 L210,312', 5); s += T('M420,250 L446,214', 5);
+  return s;
+}
+// ipê flower (front view, 5 ruffled lobes)
+function flower(x, y, r, rot, ink, paper, sw=2){
+  let s = `<g transform="translate(${x},${y}) rotate(${rot})">`;
+  for (let i = 0; i < 5; i++){
+    const a = i * 72;
+    s += `<g transform="rotate(${a})"><path d="M0,0 C${-r*0.55},${-r*0.25} ${-r*0.62},${-r*0.9} ${-r*0.25},${-r*1.02} C${-r*0.12},${-r*0.9} ${r*0.05},${-r*1.08} ${r*0.25},${-r*1.0} C${r*0.62},${-r*0.9} ${r*0.55},${-r*0.25} 0,0 Z" fill="${paper}" stroke="${ink}" stroke-width="${sw}" stroke-linejoin="round"/>`;
+    s += `<path d="M0,${-r*0.25} L0,${-r*0.72}" stroke="${ink}" stroke-width="${sw*0.6}"/></g>`;
+  }
+  s += `<circle r="${r*0.2}" fill="${ink}"/></g>`;
+  return s;
+}
+function bud(x, y, r, rot, ink){ return `<ellipse cx="${x}" cy="${y}" rx="${r*0.38}" ry="${r}" transform="rotate(${rot} ${x} ${y})" fill="${ink}"/>`; }
+function branch(pts, ink, w){ return `<path d="${pts}" fill="none" stroke="${ink}" stroke-width="${w}" stroke-linecap="round"/>`; }
+function cluster(x, y, n, rr, ink, paper, spread=1){
+  let s = '';
+  for (let i = 0; i < n; i++){ const a = R()*Math.PI*2, d = R()*rr*1.4*spread; s += flower(x + Math.cos(a)*d, y + Math.sin(a)*d*0.8, rr*(0.6 + R()*0.5), R()*72, ink, paper); }
+  for (let i = 0; i < Math.ceil(n/2); i++){ const a = R()*Math.PI*2, d = rr*1.8*spread; s += bud(x + Math.cos(a)*d, y + Math.sin(a)*d, rr*0.45, a*57.3+90, ink); }
+  return s;
+}
+
+function svg(id, w, h, inner){ return `<svg id="${id}" xmlns="${NS}" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${inner}</svg>`; }
+
+// ---------- P1 House of Slow Machines ----------
+function P1(ink, paper){
+  let s = '';
+  s += arcText('BELO CUSTOM', 500, 600, 400, {font: F.ultra, size: 112, ls: 5, fill: ink});
+  s += `<text x="500" y="285" text-anchor="middle" font-family="${F.script}" font-size="64" fill="${ink}">the garage of</text>`;
+  s += `<g transform="translate(110,300) scale(1.3)">${bobber(ink, paper)}</g>`;
+  // side blocks
+  s += `<g font-family="${F.ultra}" fill="${ink}">`;
+  s += `<text x="70" y="860" font-family="${F.osw}" font-weight="700" font-size="34" letter-spacing="3">CEP</text><text x="70" y="925" font-size="64">74603</text><text x="70" y="962" font-family="${F.osw}" font-weight="600" font-size="30" letter-spacing="4">— 010 —</text>`;
+  s += `<text x="930" y="860" text-anchor="end" font-family="${F.osw}" font-weight="700" font-size="34" letter-spacing="3">GOIÂNIA</text><text x="930" y="925" text-anchor="end" font-size="64">BRAZIL</text><text x="930" y="962" text-anchor="end" font-family="${F.osw}" font-weight="600" font-size="30" letter-spacing="4">— GO —</text>`;
+  s += `</g>`;
+  s += `<line x1="70" y1="880" x2="230" y2="880" stroke="${ink}" stroke-width="3"/><line x1="770" y1="880" x2="930" y2="880" stroke="${ink}" stroke-width="3"/>`;
+  s += `<text x="500" y="1040" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="52" letter-spacing="6" fill="${ink}">THE HOUSE <tspan font-family="${F.it}" font-style="italic" font-weight="800" letter-spacing="0">of</tspan></text>`;
+  s += `<text x="500" y="1150" text-anchor="middle" font-family="${F.ultra}" font-size="84" letter-spacing="1" fill="${ink}">SLOW MACHINES</text>`;
+  s += `<text x="500" y="1220" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="26" letter-spacing="10" fill="${ink}">★ HAND BUILT SINCE 2016 ★</text>`;
+  return svg('p1', 1000, 1240, s);
+}
+// ---------- P2 Ipê Engine ----------
+function P2(ink, paper){
+  let s = '';
+  s += `<text x="450" y="70" text-anchor="middle" font-family="${F.it}" font-style="italic" font-weight="600" font-size="46" fill="${ink}">Grown in the Cerrado,</text>`;
+  s += `<text x="450" y="124" text-anchor="middle" font-family="${F.it}" font-style="italic" font-weight="600" font-size="46" fill="${ink}">Built in the Garage</text>`;
+  const X0 = 110, Y0 = 170, X1 = 790, Y1 = 900;
+  const clip = uid('k');
+  s += `<clipPath id="${clip}"><rect x="${X0+40}" y="${Y0+40}" width="${X1-X0-80}" height="${Y1-Y0-80}"/></clipPath>`;
+  s += `<g clip-path="url(#${clip})">`;
+  // sun rays
+  const sx = 450, sy = 600;
+  for (let a = 0; a < 360; a += 3){ const long = (a/3)%2 === 0; s += `<line x1="${sx + Math.cos(deg(a))*150}" y1="${sy + Math.sin(deg(a))*150}" x2="${sx + Math.cos(deg(a))*(long?700:420)}" y2="${sy + Math.sin(deg(a))*(long?700:420)}" stroke="${ink}" stroke-width="${long?2.4:1.4}"/>`; }
+  s += `<circle cx="${sx}" cy="${sy}" r="150" fill="${paper}"/>`;
+  // ground hills
+  s += `<path d="M${X0},800 C260,760 360,790 450,775 C560,760 660,790 ${X1},770 L${X1},${Y1} L${X0},${Y1} Z" fill="${paper}"/>`;
+  s += hatch(`M${X0},800 C260,760 360,790 450,775 C560,760 660,790 ${X1},770 L${X1},${Y1} L${X0},${Y1} Z`, X0, 740, X1-X0, 200, 0, 7, 2, ink);
+  s += `<path d="M${X0},800 C260,760 360,790 450,775 C560,760 660,790 ${X1},770" fill="none" stroke="${ink}" stroke-width="4"/>`;
+  // branches from engine heads
+  const br = (d, w) => branch(d, ink, w);
+  s += br('M372,520 C330,440 300,400 240,350', 9) + br('M300,402 C300,360 320,330 330,290', 6) + br('M260,365 C220,360 200,330 190,300', 5);
+  s += br('M528,520 C570,440 600,400 660,350', 9) + br('M600,402 C600,360 580,330 570,290', 6) + br('M640,365 C680,360 700,330 712,300', 5);
+  s += br('M450,470 C455,400 440,330 452,250', 7);
+  // engine (two cylinders big)
+  s += `<g transform="translate(450,760) scale(2.2)">` + cylinder(-12, -28, -24, ink, paper) + cylinder(12, -28, 24, ink, paper) + `<ellipse cx="0" cy="0" rx="60" ry="40" fill="${paper}" stroke="${ink}" stroke-width="4"/>` + hatch('M-60,0 A60,40 0 1 0 60,0 A60,40 0 1 0 -60,0 Z', -60, -40, 120, 80, 30, 3.2, 1.1, ink) + `<circle cx="-24" cy="-2" r="20" fill="${paper}" stroke="${ink}" stroke-width="3"/><circle cx="-24" cy="-2" r="6" fill="${ink}"/><ellipse cx="0" cy="0" rx="60" ry="40" fill="none" stroke="${ink}" stroke-width="4"/></g>`;
+  // flower clusters
+  s += cluster(240, 340, 9, 26, ink, paper) + cluster(330, 280, 7, 22, ink, paper) + cluster(190, 292, 6, 20, ink, paper);
+  s += cluster(660, 340, 9, 26, ink, paper) + cluster(570, 280, 7, 22, ink, paper) + cluster(712, 292, 6, 20, ink, paper);
+  s += cluster(452, 240, 10, 28, ink, paper);
+  s += `</g>`;
+  // frame
+  s += `<rect x="${X0+40}" y="${Y0+40}" width="${X1-X0-80}" height="${Y1-Y0-80}" fill="none" stroke="${ink}" stroke-width="5"/>`;
+  // flower border
+  const per = [];
+  for (let x = X0+10; x <= X1-10; x += 44) { per.push([x, Y0+18]); per.push([x, Y1-18]); }
+  for (let y = Y0+60; y <= Y1-60; y += 44) { per.push([X0+18, y]); per.push([X1-18, y]); }
+  per.forEach(([x,y]) => { s += flower(x + (R()-.5)*6, y + (R()-.5)*6, 21 + R()*4, R()*72, ink, paper, 2.4); });
+  // title
+  s += `<text x="450" y="1010" text-anchor="middle" font-family="${F.ultra}" font-size="90" letter-spacing="3" fill="${ink}">BELO CUSTOM</text>`;
+  s += `<text x="450" y="1062" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="28" letter-spacing="12" fill="${ink}">IPÊ ENGINE · GOIÁS · BRASIL</text>`;
+  return svg('p2', 900, 1080, s);
+}
+// ---------- P3 Wheel ----------
+function P3(ink, acc, paper){
+  let s = '';
+  s += circleText('SLOW IS A SPEED ★ BELO CUSTOM ★ GOIÂNIA · BRASIL ★ EST. 2016 ★ ', 500, 500, 438, {font: F.osw, size: 50, weight: 700, ls: 4, fill: ink});
+  s += `<circle cx="500" cy="500" r="408" fill="none" stroke="${ink}" stroke-width="5"/><circle cx="500" cy="500" r="490" fill="none" stroke="${ink}" stroke-width="5"/>`;
+  s += wheel(500, 500, {tireO: 380, tireI: 300, rim: 288, hub: 64, n: 48, ink, paper, tread: 2.2, sw: 7, tsw: 3, rsw: 7, ssw: 3.2, lace: 0.36});
+  s += sprocket(500, 500, 120, 30, ink, paper);
+  s += `<circle cx="500" cy="500" r="74" fill="${acc}"/>`;
+  s += `<text x="500" y="540" text-anchor="middle" font-family="${F.ultra}" font-size="112" fill="${paper}">B</text>`;
+  [0,90,180,270].forEach(a => { s += `<text x="${500+Math.cos(deg(a))*449}" y="${500+Math.sin(deg(a))*449+12}" text-anchor="middle" font-size="0" fill="${acc}"></text>`; });
+  return svg('p3', 1000, 1000, s);
+}
+// ---------- P4 Moto Works crest ----------
+function checkerFlag(x, y, w, h, cell, ang, ink, paper, flip){
+  let s = `<g transform="translate(${x},${y}) rotate(${ang})">`;
+  s += `<line x1="0" y1="-10" x2="0" y2="${h*2.6}" stroke="${ink}" stroke-width="9" stroke-linecap="round"/><circle cx="0" cy="-14" r="9" fill="${ink}"/>`;
+  const cols = Math.round(w/cell), rows = Math.round(h/cell);
+  for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++){
+    if ((i + j) % 2) continue;
+    const wav = k => Math.sin(k/cols*Math.PI*1.6)*14;
+    const dir = flip ? -1 : 1;
+    const x0 = dir*i*cell, x1 = dir*(i+1)*cell;
+    s += `<path d="M${x0},${j*cell+wav(i)} L${x1},${j*cell+wav(i+1)} L${x1},${(j+1)*cell+wav(i+1)} L${x0},${(j+1)*cell+wav(i)} Z" fill="${ink}"/>`;
+  }
+  s += `<path d="M0,${0} ${Array.from({length: cols+1}, (_, i) => `L${(flip?-1:1)*i*cell},${Math.sin(i/cols*Math.PI*1.6)*14}`).join(' ')} ${Array.from({length: cols+1}, (_, i) => `L${(flip?-1:1)*(cols-i)*cell},${rows*cell + Math.sin((cols-i)/cols*Math.PI*1.6)*14}`).join(' ')} Z" fill="none" stroke="${ink}" stroke-width="4"/>`;
+  return s + '</g>';
+}
+function P4(ink, acc, paper){
+  let s = '';
+  s += checkerFlag(330, 150, 230, 150, 25, -28, ink, paper, true);
+  s += checkerFlag(670, 150, 230, 150, 25, 28, ink, paper, false);
+  // shield
+  const sh = 'M260,250 L740,250 L740,560 C740,680 600,740 500,780 C400,740 260,680 260,560 Z';
+  s += `<path d="${sh}" fill="${paper}" stroke="${ink}" stroke-width="10"/>`;
+  s += `<path d="M280,270 L720,270 L720,556 C720,664 594,718 500,754 C406,718 280,664 280,556 Z" fill="none" stroke="${ink}" stroke-width="3"/>`;
+  s += `<text x="500" y="335" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="25" letter-spacing="4" fill="${ink}">PARTS ★ SERVICE ★ CUSTOM</text>`;
+  s += `<text x="500" y="520" text-anchor="middle" font-family="${F.ultra}" font-size="150" letter-spacing="2" fill="${acc}" stroke="${ink}" stroke-width="10" paint-order="stroke">BELO</text>`;
+  for (let i = 0; i < 4; i++){ s += `<rect x="300" y="${548 + i*16}" width="400" height="7" fill="${ink}"/>`; }
+  s += `<text x="500" y="690" text-anchor="middle" font-family="${F.script}" font-size="58" fill="${ink}">Goiânia</text>`;
+  s += `<text x="500" y="890" text-anchor="middle" font-family="${F.ultra}" font-size="100" letter-spacing="6" fill="${ink}">MOTO WORKS</text>`;
+  s += `<text x="500" y="950" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="30" letter-spacing="11" fill="${ink}">HAND BUILT · HARD RIDDEN · Nº 74603</text>`;
+  s += `<text x="215" y="410" text-anchor="middle" font-size="46" fill="${acc}">★</text><text x="785" y="410" text-anchor="middle" font-size="46" fill="${acc}">★</text>`;
+  return svg('p4', 1000, 980, s);
+}
+// ---------- P5 Long Way Home ----------
+function lobeira(x, y, sc, ink){
+  let s = `<g transform="translate(${x},${y}) scale(${sc})" fill="${ink}" stroke="${ink}" stroke-linecap="round">`;
+  s += `<path d="M0,0 C-4,-30 8,-50 -2,-80 M-2,-60 C-20,-70 -30,-80 -40,-96 M2,-72 C20,-80 26,-92 36,-104" fill="none" stroke-width="6"/>`;
+  [[-40,-104,26],[36,-112,30],[-4,-112,34],[-22,-122,22],[18,-130,24]].forEach(([cx,cy,r]) => s += `<ellipse cx="${cx}" cy="${cy}" rx="${r}" ry="${r*0.62}" stroke="none"/>`);
+  return s + '</g>';
+}
+function P5(ink, acc, paper){
+  let s = '';
+  const cx = 500, cy = 470, r = 300;
+  const cl = uid('s');
+  s += `<clipPath id="${cl}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath><g clip-path="url(#${cl})">`;
+  // halftone sun: dots grow toward bottom
+  for (let y = cy - r; y <= cy + r; y += 15){
+    const t = (y - (cy - r)) / (2*r);
+    const dr = 7.4 * (1 - Math.pow(t, 1.6)) + 0.6;
+    for (let x = cx - r + ((y/15)%2 ? 7.5 : 0); x <= cx + r; x += 15) s += `<circle cx="${x}" cy="${y}" r="${dr.toFixed(2)}" fill="${acc}"/>`;
+  }
+  // land
+  s += `<rect x="${cx-r}" y="620" width="${2*r}" height="200" fill="${paper}"/>`;
+  s += `</g>`;
+  s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${acc}" stroke-width="6"/>`;
+  // horizon + road
+  s += `<line x1="120" y1="620" x2="880" y2="620" stroke="${ink}" stroke-width="5"/>`;
+  s += `<path d="M488,620 L512,620 L700,900 L300,900 Z" fill="${ink}"/>`;
+  for (let i = 0; i < 6; i++){ const t0 = Math.pow(i/6, 1.5), t1 = t0 + 0.05 + i*0.012; const y0 = 620 + t0*280, y1 = 620 + Math.min(t1, 1)*280; const w0 = 1 + t0*7, w1 = 1 + t1*7; s += `<path d="M${500-w0},${y0} L${500+w0},${y0} L${500+w1},${y1} L${500-w1},${y1} Z" fill="${paper}"/>`; }
+  // ground hatching
+  for (let y = 636; y < 900; y += 12){ const t = (y - 620)/280; const gap = 300*(0.2+t); s += `<line x1="${120 + (1-t)*60}" y1="${y}" x2="${500 - 12 - t*188}" y2="${y}" stroke="${ink}" stroke-width="${1.2+t*2}"/><line x1="${500 + 12 + t*188}" y1="${y}" x2="${880 - (1-t)*60}" y2="${y}" stroke="${ink}" stroke-width="${1.2+t*2}"/>`; }
+  // trees on horizon
+  s += lobeira(210, 622, 1.1, ink) + lobeira(300, 622, 0.7, ink) + lobeira(720, 622, 1.25, ink) + lobeira(820, 622, 0.8, ink) + lobeira(640, 622, 0.55, ink);
+  // bike on road
+  s += arcText('TAKE THE LONG WAY HOME', 500, 470, 360, {font: F.ultra, size: 66, ls: 3, fill: ink});
+  s += `<text x="500" y="965" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="36" letter-spacing="8" fill="${ink}">BR-060 · GOIÂNIA → BRASÍLIA</text>`;
+  s += `<text x="500" y="1030" text-anchor="middle" font-family="${F.script}" font-size="64" fill="${acc}">Belo Custom</text>`;
+  return svg('p5', 1000, 1060, s);
+}
+// ---------- fronts ----------
+function F1(ink){
+  let s = `<text x="300" y="150" text-anchor="middle" font-family="${F.script}" font-size="170" fill="${ink}" transform="rotate(-8 300 120)">Belo</text>`;
+  s += `<path d="M120,190 C220,170 380,168 500,150" fill="none" stroke="${ink}" stroke-width="7" stroke-linecap="round"/>`;
+  s += `<text x="318" y="250" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="34" letter-spacing="10" fill="${ink}">CUSTOM · GOIÂNIA</text>`;
+  return svg('f1', 600, 280, s);
+}
+function F2(ink, paper){
+  let s = `<g transform="translate(250,180) scale(0.82) translate(-300,-180)">${bobber(ink, paper)}</g>`;
+  s += `<text x="250" y="420" text-anchor="middle" font-family="${F.ultra}" font-size="58" letter-spacing="3" fill="${ink}">BELO</text>`;
+  s += `<text x="250" y="458" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="22" letter-spacing="9" fill="${ink}">THE HOUSE OF SLOW MACHINES</text>`;
+  return svg('f2', 500, 470, s);
+}
+
+const T = {
+  black: '#29282A', osso: '#E4DCC9', olive: '#4E4F33', terra: '#8B3B22', char: '#3B3A39'
+};
+document.getElementById('out').innerHTML =
+  P1('#E07650', T.black) + P2('#26389A', T.osso) + P3('#E4DCC9', '#E0A526', T.olive) +
+  P4('#E9E0CC', '#E0A526', T.terra) + P5('#E9E0CC', '#E0A526', T.char) + F1('#E07650') + F2('#26389A', T.osso);
+</script></body></html>

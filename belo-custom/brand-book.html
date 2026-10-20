@@ -192,19 +192,25 @@ p { margin: 0; }
 .listra { height: 18px; margin-top: 36px; background: repeating-linear-gradient(-45deg, var(--ipe) 0 14px, var(--graxa) 14px 28px); }
 
 /* ---------- CAMISETAS ---------- */
-.camisetas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.peca { display: grid; gap: 14px; align-content: start; }
-.peca .vitrine { background: var(--osso-2); aspect-ratio: 1 / 1.05; max-width: 100%; display: grid; place-items: center; position: relative; overflow: hidden; }
-.peca .vitrine::before { content: ""; position: absolute; inset: auto 0 0 0; height: 18%; background: linear-gradient(transparent, rgba(20,17,14,.10)); }
-.peca .vitrine svg { width: 86%; height: auto; filter: drop-shadow(0 18px 18px rgba(20,17,14,.22)); }
-.peca .vitrine .lado { position: absolute; top: 12px; left: 14px; font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em; color: #6E6455; }
-.peca .ficha { display: grid; gap: 4px; }
-.peca .ficha .topo-f { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
-.peca .ficha h3 { font-size: 28px; }
-.peca .ficha p { font-size: 14px; line-height: 1.5; color: #5C5346; }
-.peca .linha-tag { font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; padding: 3px 7px; background: var(--graxa); color: var(--osso); white-space: nowrap; }
-@media (max-width: 980px) { .camisetas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 600px) { .camisetas { grid-template-columns: 1fr; } }
+.drop { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 22px; }
+.produto { display: grid; gap: 16px; align-content: start; min-width: 0; }
+.produto.destaque { grid-column: 1 / -1; grid-template-columns: 1.25fr 1fr; gap: 24px 48px; align-items: center; }
+.produto .foto { position: relative; background: #E4E2DE; }
+.produto .foto img { display: block; width: 100%; height: auto; aspect-ratio: 1100 / 1167; object-fit: cover; }
+.lados { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 6px; }
+.lados button, .lados .so { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 7px 12px; border: 1px solid var(--graxa); background: rgba(235,224,201,.85); color: var(--graxa); cursor: pointer; }
+.lados .so { cursor: default; }
+.lados button.on { background: var(--graxa); color: var(--osso); }
+.lados button:focus-visible { outline: 2px solid var(--terra); outline-offset: 2px; }
+.produto .ficha { display: grid; gap: 8px; }
+.produto .topo-f { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.produto h3 { font-size: 30px; }
+.produto.destaque h3 { font-size: clamp(40px, 5vw, 64px); }
+.produto .cor-malha { color: var(--terra); font-size: 11px; }
+.produto p { font-size: 15px; line-height: 1.55; color: #5C5346; max-width: 52ch; }
+.produto.destaque p { font-size: 18px; }
+.linha-tag { font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; padding: 3px 7px; background: var(--graxa); color: var(--osso); white-space: nowrap; }
+@media (max-width: 760px) { .drop { grid-template-columns: 1fr; } .produto.destaque { grid-template-columns: 1fr; } }
 .espec { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 48px; border-top: 2px solid var(--graxa); }
 .espec div { padding: 16px 16px 0 0; display: grid; gap: 4px; }
 .espec div + div { padding-left: 16px; border-left: 1px solid #C9BB9C; }
@@ -523,15 +529,57 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
       <div class="num"><b>07</b>Coleção 01</div>
       <div class="cap-body">
         <h2>Primeiro drop: Seca</h2>
-        <p class="lede muted">Seis peças pra abrir a marca. Duas de cada linha, mais o básico de bolso. Todas pensadas pra 1 a 3 cores de serigrafia, o que mantém o custo baixo e o visual de antigamente.</p>
+        <p class="lede muted">Cinco peças de estampa grande nas costas, no padrão das marcas de moto que a gente admira: ilustração de verdade, letra em arco, uma ou duas cores de tinta e desgaste de serigrafia. Toda arte nasce de algo da oficina ou de Goiás.</p>
       </div>
     </div>
-    <div class="camisetas" id="camisetas"></div>
+
+    <div class="drop">
+      <article class="produto destaque">
+        <div class="foto"><img src="img/m1_back.jpg" alt="House of Slow Machines, costas" width="1100" height="1167" loading="eager"><div class="lados" role="group" aria-label="Lado da peça"><button type="button" class="on" data-src="img/m1_back.jpg" aria-pressed="true">Costas</button><button type="button" data-src="img/m1_front.jpg" aria-pressed="false">Frente</button></div></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>House of Slow Machines</h3><span class="linha-tag">ESTRADA</span></div>
+          <span class="mono cor-malha">Preto lavado · tinta terra</span>
+          <p>A peça-assinatura. A bobber da casa em traço de gravura, o CEP da oficina e a frase que resume a Belo: aqui nada é feito com pressa. Na frente, só o “Belo” em letreiro no peito.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="img/m2_back.jpg" alt="Ipê Engine, costas" width="1100" height="1167" loading="eager"><div class="lados" role="group" aria-label="Lado da peça"><button type="button" class="on" data-src="img/m2_back.jpg" aria-pressed="true">Costas</button><button type="button" data-src="img/m2_front.jpg" aria-pressed="false">Frente</button></div></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Ipê Engine</h3><span class="linha-tag">ESTRADA</span></div>
+          <span class="mono cor-malha">Osso · tinta azul cobalto</span>
+          <p>Um V2 com ipê-amarelo brotando dos cilindros, moldura de flores e raios de sol em gravura. É o encontro do cerrado com a garagem. Na frente, a bobber pequena no peito.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="img/m3_back.jpg" alt="Slow Is a Speed, costas" width="1100" height="1167" loading="lazy"><div class="lados"><span class="so">Costas</span></div></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Slow Is a Speed</h3><span class="linha-tag">ESTRADA</span></div>
+          <span class="mono cor-malha">Oliva cerrado · osso e ipê</span>
+          <p>Uma roda raiada de 48 raios com a coroa da transmissão no centro, e a frase da casa correndo em volta como num pneu de faixa branca.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="img/m4_back.jpg" alt="Moto Works, costas" width="1100" height="1167" loading="lazy"><div class="lados"><span class="so">Costas</span></div></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Moto Works</h3><span class="linha-tag">OFICINA</span></div>
+          <span class="mono cor-malha">Terra · osso e ipê</span>
+          <p>Brasão de oficina de corrida com bandeiras quadriculadas. O BELO em letra gorda, com o CEP da garagem como número de equipe.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="img/m5_back.jpg" alt="Long Way Home, costas" width="1100" height="1167" loading="lazy"><div class="lados"><span class="so">Costas</span></div></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Long Way Home</h3><span class="linha-tag">ESTRADA</span></div>
+          <span class="mono cor-malha">Grafite · ipê e osso</span>
+          <p>Sol em retícula se pondo na BR-060, com lobeiras do cerrado no horizonte. Pra quem volta de Brasília pela estrada mais longa de propósito.</p>
+        </div>
+      </article>
+    </div>
 
     <div class="espec">
       <div><b>Malha 30.1</b><span>Algodão penteado, 180 g/m². Encorpada, cai reta.</span></div>
       <div><b>Lavada</b><span>Stone wash leve antes da estampa. Já sai com cara de usada.</span></div>
-      <div><b>Serigrafia</b><span>Tinta à base d'água. Toque macio, desbota bonito.</span></div>
+      <div><b>Serigrafia</b><span>Tinta à base d'água, 1 ou 2 cores. Azul cobalto entra como tinta extra só pra estampa.</span></div>
       <div><b>Modelagem</b><span>Boxy, ombro caído, manga um dedo maior. Cabe por baixo da jaqueta.</span></div>
     </div>
   </div>
@@ -771,40 +819,14 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
     el.innerHTML = prints[el.dataset.print](el.dataset.ink, el.dataset.acc, el.dataset.tee || "#14110E");
   });
 
-  function tee(fill, inner, costas) {
-    var collar = costas
-      ? '<path d="M150,30 C170,44 230,44 250,30 L256,36 C232,52 168,52 144,36 Z" fill="rgba(0,0,0,.22)"/>'
-      : '<path d="M146,30 C164,58 236,58 254,30 L262,36 C244,72 156,72 138,36 Z" fill="rgba(0,0,0,.22)"/>';
-    return '<svg viewBox="0 0 400 440" aria-hidden="true">' +
-      '<path d="M146,30 C166,52 234,52 254,30 L330,60 L394,142 L342,172 L318,142 L318,422 Q200,432 82,422 L82,142 L58,172 L6,142 L70,60 Z" fill="' + fill + '"/>' +
-      collar +
-      '<path d="M82,142 Q90,96 110,48 M318,142 Q310,96 290,48" stroke="rgba(0,0,0,.18)" stroke-width="2" fill="none"/>' +
-      '<path d="M84,410 Q200,420 316,410 M62,164 L12,140 M338,164 L388,140" stroke="rgba(0,0,0,.14)" stroke-width="2" fill="none"/>' +
-      '<path d="M110,300 Q124,250 118,190 M290,320 Q278,270 286,200" stroke="rgba(0,0,0,.07)" stroke-width="10" fill="none" stroke-linecap="round"/>' +
-      '<g transform="translate(200,' + (costas ? 210 : 215) + ')">' + inner + '</g></svg>';
-  }
-
-  var pecas = [
-    { nome: "Poeira Vermelha", linha: "ESTRADA", lado: "COSTAS", tee: "#E6DBC4", ink: "#14110E", acc: "#A8431F", p: "poeira", costas: true,
-      txt: "Sol do cerrado caindo na BR. Tinta graxa e terra sobre malha osso." },
-    { nome: "Projeto Nº 047", linha: "PROJETO", lado: "COSTAS", tee: "#4D4E2E", ink: "#EBE0C9", acc: "#E0A526", p: "projeto", costas: true,
-      txt: "Ficha da obra impressa. Nº 01 vai com a chave da moto, 29 à venda." },
-    { nome: "Devagar & Barulhento", linha: "ESTRADA", lado: "COSTAS", tee: "#8E3A1D", ink: "#EBE0C9", acc: "#E0A526", p: "devagar", costas: true,
-      txt: "A regra da casa em malha terra. Pra quem acha que custom não é pra correr." },
-    { nome: "Selo Garagem", linha: "OFICINA", lado: "FRENTE", tee: "#1C1916", ink: "#EBE0C9", acc: "#E0A526", p: "badge",
-      txt: "O selo redondo no peito, grande. A peça que vai mais vender." },
-    { nome: "Óleo, Ferro & Fé", linha: "ESTRADA", lado: "COSTAS", tee: "#2A2826", ink: "#EBE0C9", acc: "#C9572C", p: "oleo", costas: true,
-      txt: "Três coisas que mantêm uma moto rodando. Malha preta estonada." },
-    { nome: "Bolso B", linha: "OFICINA", lado: "FRENTE", tee: "#E6DBC4", ink: "#14110E", acc: "#A8431F", p: "bolso",
-      txt: "Monograma pequeno no peito. O uniforme de quem frequenta a oficina." }
-  ];
-
-  var html = "";
-  pecas.forEach(function (c) {
-    html += '<article class="peca"><div class="vitrine"><span class="lado">' + c.lado + '</span>' +
-      tee(c.tee, prints[c.p](c.ink, c.acc, c.tee), c.costas) +
-      '</div><div class="ficha"><div class="topo-f"><h3>' + c.nome.replace("&", "&amp;") + '</h3><span class="linha-tag">' + c.linha + '</span></div><p>' + c.txt + '</p></div></article>';
+  document.querySelectorAll(".lados button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var box = btn.closest(".foto"), img = box.querySelector("img");
+      box.querySelectorAll("button").forEach(function (b) { b.classList.remove("on"); b.setAttribute("aria-pressed", "false"); });
+      btn.classList.add("on"); btn.setAttribute("aria-pressed", "true");
+      img.src = btn.dataset.src;
+      img.alt = img.alt.replace(/, (costas|frente)$/, ", " + btn.textContent.toLowerCase());
+    });
   });
-  document.getElementById("camisetas").innerHTML = html;
 })();
 </script>
