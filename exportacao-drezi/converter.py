@@ -1,10 +1,11 @@
 """Converte a exportação de produtos da Drezi para o modelo de importação.
 
 Uso:
-    python3 converter.py exportacao.csv saida.csv [--imagem-base URL] [--so-primeira-imagem]
+    python3 converter.py exportacao.csv saida.csv [--imagem-base URL] [--imagem-tamanho 1600x2000] [--so-primeira-imagem]
 
 --imagem-base troca o prefixo "media://" das imagens pela URL pública da loja
-(ex.: https://cdn.exemplo.com/184072/). Sem ela, a coluna imagem_url fica vazia.
+(ex.: https://cdn.dooca.store/184072/). Sem ela, a coluna imagem_url fica vazia.
+--imagem-tamanho acrescenta o sufixo de tamanho do CDN (ex.: 1600x2000 vira foto_1600x2000.jpeg).
 """
 import argparse
 import csv
@@ -33,11 +34,18 @@ def descricao(produto):
     return longa
 
 
-def imagens(produto, base, so_primeira):
+def imagens(produto, base, tamanho, so_primeira):
     if not base:
         return ""
-    urls = [base.rstrip("/") + "/" + img.strip().removeprefix("media://")
-            for img in produto["images"].split(",") if img.strip()]
+    urls = []
+    for img in produto["images"].split(","):
+        caminho = img.strip().removeprefix("media://")
+        if not caminho:
+            continue
+        if tamanho:
+            nome, ponto, ext = caminho.rpartition(".")
+            caminho = f"{nome}_{tamanho}.{ext}" if ponto else f"{caminho}_{tamanho}"
+        urls.append(base.rstrip("/") + "/" + caminho)
     return ";".join(urls[:1] if so_primeira else urls)
 
 
@@ -58,7 +66,7 @@ def sku(produto, filhas):
     return f"DRZ-{produto['product_id'].strip()}"
 
 
-def converter(entrada, saida, base, so_primeira):
+def converter(entrada, saida, base, tamanho, so_primeira):
     with open(entrada, encoding="utf-8-sig", newline="") as f:
         linhas = list(csv.DictReader(f))
 
@@ -89,7 +97,7 @@ def converter(entrada, saida, base, so_primeira):
                 "nao",
                 ";".join(dict.fromkeys(tags)),
                 descricao(p),
-                imagens(p, base, so_primeira),
+                imagens(p, base, tamanho, so_primeira),
             ])
     return len(produtos)
 
@@ -99,6 +107,7 @@ if __name__ == "__main__":
     ap.add_argument("entrada")
     ap.add_argument("saida")
     ap.add_argument("--imagem-base", default="")
+    ap.add_argument("--imagem-tamanho", default="")
     ap.add_argument("--so-primeira-imagem", action="store_true")
     a = ap.parse_args()
-    print(converter(a.entrada, a.saida, a.imagem_base, a.so_primeira_imagem), "produtos convertidos")
+    print(converter(a.entrada, a.saida, a.imagem_base, a.imagem_tamanho, a.so_primeira_imagem), "produtos convertidos")
