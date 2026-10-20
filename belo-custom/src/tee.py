@@ -83,7 +83,7 @@ def stroke(pts, width):
 
 def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
     rng = np.random.default_rng(seed)
-    m = silhouette(view)
+    m = silhouette(view) if view != 'close' else np.ones((H, W), np.float32)
     # ---------- height field ----------
     base = np.clip(blur(m, 26), 0, 1) ** 0.7
     folds = line_layer([
@@ -128,7 +128,7 @@ def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
         seamsL.append(stroke(curve((404, 1366), (700, 1378), (996, 1366)), 2.2))
         seamsL.append(stroke(curve((174, 588), (230, 640), (308, 672)), 2.2))
         seamsL.append(stroke(curve((1226, 588), (1170, 640), (1092, 672)), 2.2))
-    seams = sum(seamsL)
+    seams = sum(seamsL) if view != 'close' else np.zeros((H, W), np.float32)
     seam_glow = blur(seams, 6)
     col = np.array(tee_rgb, np.float32) / 255
     # stonewash: lighter at seams/edges, mottled
@@ -138,7 +138,9 @@ def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
     fabric = fabric + lift[..., None] * (1 - col[None, None, :]) * 0.6
     fabric -= (seams * 0.10)[..., None]
     # collar
-    if view == 'back':
+    if view == 'close':
+        pass
+    elif view == 'back':
         neck_top = curve((560, 236), (700, 268), (840, 236))
         band = stroke(neck_top, 30)
         band = band * m
@@ -160,8 +162,11 @@ def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
         A = np.zeros((H, W), np.float32); C = np.zeros((H, W, 3), np.float32)
         x0, y0 = p['cx'] - w // 2, p['y']
         arr = np.asarray(art, np.float32) / 255
-        A[y0:y0 + hgt, x0:x0 + w] = arr[..., 3]
-        C[y0:y0 + hgt, x0:x0 + w] = arr[..., :3]
+        ax0, ay0 = max(0, -x0), max(0, -y0)
+        bx0, by0 = max(0, x0), max(0, y0)
+        bw, bh = min(W - bx0, w - ax0), min(H - by0, hgt - ay0)
+        A[by0:by0 + bh, bx0:bx0 + bw] = arr[ay0:ay0 + bh, ax0:ax0 + bw, 3]
+        C[by0:by0 + bh, bx0:bx0 + bw] = arr[ay0:ay0 + bh, ax0:ax0 + bw, :3]
         # warp by height gradient
         k = 1.6
         sx = np.clip(xx + gx * k, 0, W - 1).astype(np.int32)
@@ -193,6 +198,7 @@ def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
     d = ImageDraw.Draw(img)
     # woven side tab on left side seam
     tx, ty = 382, 1250
+    if view == 'close': img.save(out, quality=90); return
     d.rectangle([tx, ty, tx + 22, ty + 54], fill=(26, 24, 22))
     d.rectangle([tx + 4, ty + 6, tx + 8, ty + 48], fill=(214, 204, 182))
     d.line([(tx + 22, ty), (tx + 22, ty + 54)], fill=(10, 10, 10), width=2)
@@ -211,6 +217,7 @@ if __name__ == '__main__':
       'm2_front': ((228, 220, 203), [dict(file='f2.png', w=230, cx=860, y=420)], 'front', 4),
       'm3_back':  ((78, 79, 51), [dict(file='p3.png', w=600, cx=700, y=400)], 'back', 5),
       'm4_back':  ((139, 59, 34), [dict(file='p4.png', w=600, cx=700, y=380)], 'back', 6),
+      'c1_close': ((41, 40, 42), [dict(file='p1.png', w=2300, cx=700, y=-520, distress=2.25)], 'close', 11),
       'm5_back':  ((59, 58, 57), [dict(file='p5.png', w=600, cx=700, y=360)], 'back', 7),
     }
     names = sys.argv[1:] or list(jobs)

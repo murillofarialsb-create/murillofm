@@ -1,0 +1,106 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Yellowtail&family=Ultra&display=swap">
+<style>
+:root{--graxa:#14110E;--g2:#1F1B17;--osso:#EBE0C9;--terra:#A8431F;--ipe:#E0A526;--cerrado:#50512F;--dim:#A79C87}
+body{margin:0;background:#888}
+.post{width:1080px;height:1350px;position:relative;overflow:hidden;margin:0 0 20px;font-family:Archivo,sans-serif}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .85  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.mono{font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.16em}
+.d{font-family:'Big Shoulders Display',sans-serif;font-weight:900;text-transform:uppercase;line-height:.84}
+.s{font-family:Yellowtail,cursive}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lab{position:absolute;left:64px;right:64px;display:flex;justify-content:space-between;font-size:22px;color:var(--graxa)}
+.lab.top{top:58px}.lab.bot{bottom:58px}
+.photo.dark .lab{color:var(--osso)}
+/* 1 */
+#p1{background:var(--graxa);color:var(--osso)}
+#p1 .bel{position:absolute;left:58px;top:250px;font-size:520px}
+#p1 .gg{position:absolute;left:190px;top:600px;font-size:156px;white-space:nowrap;color:var(--ipe);transform:rotate(-7deg);text-shadow:6px 6px 0 var(--graxa),-6px -6px 0 var(--graxa),6px -6px 0 var(--graxa),-6px 6px 0 var(--graxa),0 7px 0 var(--graxa),7px 0 0 var(--graxa)}
+#p1 .ln{position:absolute;left:64px;right:64px;top:64px;display:flex;justify-content:space-between;font-size:22px;color:var(--dim);border-bottom:2px solid #2B2621;padding-bottom:22px}
+#p1 .foot{position:absolute;left:64px;right:64px;bottom:64px;display:flex;justify-content:space-between;align-items:flex-end}
+#p1 .foot .mono{font-size:24px;color:var(--osso);line-height:1.7}
+#p1 .em{color:var(--ipe)}
+/* 4 */
+#p4{background:var(--osso);color:var(--graxa)}
+#p4 .t{position:absolute;left:64px;top:220px;font-size:200px;width:900px}
+#p4 .t .s{color:var(--terra);text-transform:none;font-weight:400;font-size:1.05em;line-height:.5}
+#p4 .b{position:absolute;left:64px;bottom:64px;right:64px;border-top:4px solid var(--graxa);padding-top:28px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+#p4 .b p{font-size:30px;line-height:1.45;margin:0;max-width:640px}
+/* 6 */
+#p6{background:var(--terra);color:var(--osso);text-align:center}
+#p6 .k{position:absolute;top:120px;left:0;right:0;font-size:26px}
+#p6 .dev{position:absolute;top:330px;left:0;right:0;font-size:330px}
+#p6 .bar{position:absolute;top:640px;left:0;right:0;font-size:200px;color:var(--ipe);transform:rotate(-6deg);text-shadow:5px 5px 0 var(--terra),-5px -5px 0 var(--terra),5px -5px 0 var(--terra),-5px 5px 0 var(--terra)}
+#p6 .f{position:absolute;bottom:90px;left:0;right:0;font-size:24px}
+#p6 .f::before{content:"";display:block;width:180px;height:3px;background:var(--osso);margin:0 auto 34px}
+/* 8 */
+#p8{background:var(--g2);color:var(--osso)}
+#p8 .t1{position:absolute;left:64px;top:64px;font-size:110px}
+#p8 .t1 .s{display:block;text-transform:none;font-weight:400;color:var(--ipe);font-size:84px;line-height:1.1}
+#p8 .note{position:absolute;left:64px;bottom:64px;font-size:22px;color:var(--dim);line-height:1.8}
+.tag{position:absolute;right:150px;top:330px;width:380px;background:var(--osso);color:var(--graxa);padding:70px 36px 36px;transform:rotate(-7deg);box-shadow:0 40px 60px rgba(0,0,0,.55);clip-path:polygon(14% 0,86% 0,100% 9%,100% 100%,0 100%,0 9%)}
+.tag .furo{position:absolute;top:26px;left:50%;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:var(--g2);box-shadow:inset 0 0 0 4px #8E8C86}
+.tag .t1x{font-size:84px;text-align:center}
+.tag .t2{font-family:Yellowtail;color:var(--terra);font-size:52px;text-align:center;line-height:1}
+.tag dl{margin:30px 0 0;display:grid;gap:14px;font-family:'IBM Plex Mono';font-size:20px;letter-spacing:.1em}
+.tag dl div{display:flex;justify-content:space-between;border-bottom:2px solid #B9AC90;padding-bottom:8px}
+.tag dt{color:#6E6455}.tag dd{margin:0;font-weight:500}
+.tag .hand{font-family:Yellowtail;font-size:40px;letter-spacing:0;color:#26389A}
+.tag .cep{margin-top:24px;font-family:'IBM Plex Mono';font-size:16px;letter-spacing:.14em;text-align:center;color:#6E6455}
+.etq{position:absolute;left:120px;top:760px;width:400px;background:var(--graxa);color:var(--osso);padding:26px 30px 22px;display:grid;justify-items:center;transform:rotate(4deg);box-shadow:0 30px 50px rgba(0,0,0,.6);background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 2px,transparent 2px 5px);border:2px solid #3a342c}
+.etq .a{font-size:84px}.etq .b{font-family:Yellowtail;font-size:52px;color:var(--ipe);margin-top:-8px}.etq .c{font-size:15px;color:var(--dim);margin-top:10px}
+/* 9 */
+#p9{background:var(--osso);color:var(--graxa)}
+#p9 .h{position:absolute;left:64px;top:64px;right:64px;display:flex;justify-content:space-between;align-items:flex-start}
+#p9 .h .d{font-size:150px}
+#p9 .h .d .s{display:block;text-transform:none;font-weight:400;font-size:96px;color:var(--terra);line-height:1}
+#p9 .grid{position:absolute;left:64px;right:64px;top:300px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px 14px}
+#p9 .grid .cta{background:var(--graxa);color:var(--osso);display:flex;flex-direction:column;justify-content:flex-end;padding:22px;aspect-ratio:420/464}
+#p9 .cta b{font-family:'Big Shoulders Display';font-weight:900;font-size:76px;text-transform:uppercase;line-height:.9;color:var(--ipe)}
+#p9 .cta span{font-size:18px;color:var(--osso)}
+#p9 .grid img{width:100%;display:block;aspect-ratio:420/464;object-fit:cover}
+#p9 .grid span{display:block;font-size:16px;margin-top:10px;letter-spacing:.08em}
+#p9 .info{position:absolute;left:64px;right:64px;bottom:64px;display:grid;grid-template-columns:repeat(2,1fr);border-top:4px solid var(--graxa)}
+#p9 .info div{padding:26px 20px 0 0}
+#p9 .info div+div{padding-left:24px;border-left:2px solid #C9BB9C}
+#p9 .info b{display:block;font-family:'Big Shoulders Display';font-weight:900;font-size:64px;text-transform:uppercase;line-height:1}
+#p9 .info span{font-size:22px;color:#5C5346}
+</style></head><body>
+
+<div class="post grain" id="p1">
+  <div class="ln mono"><span>Belo Custom apresenta</span><span>Goiânia · GO</span></div>
+  <div class="d bel">BELO</div>
+  <div class="s gg">Garage Goods</div>
+  <div class="foot"><div class="mono">Roupa de quem monta moto<br><span class="em">Drop 01 · em breve</span></div>
+  <svg width="210" height="210" viewBox="-110 -110 220 220"><circle r="100" fill="none" stroke="#E0A526" stroke-width="5"/><circle r="92" fill="none" stroke="#E0A526" stroke-width="1.5"/><circle r="66" fill="none" stroke="#E0A526" stroke-width="1.5"/><path id="tp" d="M-72,0 A72,72 0 0 1 72,0" fill="none"/><path id="bp" d="M-86,0 A86,86 0 0 0 86,0" fill="none"/><text font-family="Big Shoulders Display" font-weight="800" font-size="17" letter-spacing="3.5" fill="#E0A526"><textPath href="#tp" startOffset="50%" text-anchor="middle">BELO · GARAGE GOODS</textPath></text><text font-family="Big Shoulders Display" font-weight="800" font-size="15" letter-spacing="3" fill="#E0A526"><textPath href="#bp" startOffset="50%" text-anchor="middle">GOIÂNIA · GO · BRASIL</textPath></text><text y="24" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="78" fill="#EBE0C9">B</text><text y="48" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" letter-spacing="3" fill="#E0A526">EST. 2016</text></svg></div>
+</div>
+
+<div class="post photo" id="p2"><img src="m1_back.jpg"><div class="lab top mono"><span>Drop 01 · Seca</span><span>01 / 05</span></div><div class="lab bot mono"><span>House of Slow Machines</span><span>Preto lavado</span></div></div>
+
+<div class="post photo dark" id="p3"><img src="c1_close.jpg"><div class="lab bot mono"><span>Gravura · serigrafia à base d'água</span><span>Detalhe</span></div></div>
+
+<div class="post grain" id="p4"><div class="d t">Roupa de quem <span class="s">monta</span> moto.</div>
+  <div class="b"><p>Desde 2016, cada moto que sai da garagem é única. A Garage Goods leva o mesmo jeito de trabalhar pra camiseta.</p><span class="mono" style="font-size:20px">Belo Custom<br>Goiânia</span></div></div>
+
+<div class="post photo" id="p5"><img src="m2_back.jpg"><div class="lab top mono"><span>Drop 01 · Seca</span><span>02 / 05</span></div><div class="lab bot mono"><span>Ipê Engine</span><span>Osso · azul cobalto</span></div></div>
+
+<div class="post grain" id="p6"><div class="k mono">★ Regra da casa Nº 1 ★</div><div class="d dev">Devagar</div><div class="s bar">&amp; barulhento</div><div class="f mono">Belo Garage Goods · Goiânia</div></div>
+
+<div class="post photo" id="p7"><img src="m5_back.jpg"><div class="lab top mono"><span>Drop 01 · Seca</span><span>05 / 05</span></div><div class="lab bot mono"><span>Long Way Home</span><span>Grafite</span></div></div>
+
+<div class="post grain" id="p8"><div class="d t1">Cada peça<br>sai numerada<span class="s">e escrita à mão</span></div>
+  <div class="tag"><span class="furo"></span><div class="d t1x">BELO</div><div class="t2">Garage Goods</div><dl><div><dt>DROP</dt><dd>01 · SECA</dd></div><div><dt>PEÇA</dt><dd class="hand">18 / 30</dd></div><div><dt>TAM.</dt><dd class="hand">G</dd></div></dl><div class="cep">CEP 74603-010 · GYN</div></div>
+  <div class="etq"><span class="d a">BELO</span><span class="b">Garage Goods</span><span class="mono c">Feito em Goiânia · GO</span></div>
+  <div class="note mono">Etiqueta tecida na gola<br>Tag kraft preenchida na oficina</div></div>
+
+<div class="post grain" id="p9"><div class="h"><div class="d">Drop 01<span class="s">Seca</span></div><span class="mono" style="font-size:22px;text-align:right;line-height:1.7">Belo Garage Goods<br>Goiânia · GO</span></div>
+  <div class="grid">
+    <div><img src="t_m1_back.jpg"><span class="mono">Slow Machines</span></div>
+    <div><img src="t_m2_back.jpg"><span class="mono">Ipê Engine</span></div>
+    <div><img src="t_m3_back.jpg"><span class="mono">Slow Is a Speed</span></div>
+    <div><img src="t_m4_back.jpg"><span class="mono">Moto Works</span></div>
+    <div><img src="t_m5_back.jpg"><span class="mono">Long Way Home</span></div>
+    <div><div class="cta"><b>Sexta<br>19h</b><span class="mono">Link na bio</span></div></div>
+  </div>
+  <div class="info"><div><b>5 peças</b><span>Estampas exclusivas, serigrafia em Goiânia</span></div><div><b>30 de cada</b><span>Numeradas. Acabou, não volta.</span></div></div></div>
+</body></html>
