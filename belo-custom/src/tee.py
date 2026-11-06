@@ -32,21 +32,25 @@ def chaikin(pts, it=3, closed=True):
         pts = out
     return pts
 
+FITS = {
+    'box':     dict(nk=(566, 236), sh=(332, 292), sc=(220, 400), c1=(138, 566), cc=(200, 640), c2=(262, 690), uc=(330, 640), u=(390, 586), hem=(398, 1404), hc=1420),
+    'regular': dict(nk=(598, 330), sh=(430, 362), sc=(336, 444), c1=(266, 578), cc=(308, 616), c2=(354, 646), uc=(382, 616), u=(406, 600), hem=(410, 1262), hc=1276),
+    'over':    dict(nk=(574, 296), sh=(312, 350), sc=(214, 466), c1=(150, 660), cc=(228, 708), c2=(304, 742), uc=(318, 706), u=(324, 676), hem=(328, 1330), hc=1348),
+}
+FIT = FITS['box']
+
 def silhouette(view):
-    nk = 236 if view == 'back' else 240
-    P = []
-    P += [(566, nk)]
-    P += curve((566, nk), (450, 262), (332, 292), 20)            # shoulder
-    P += curve((332, 292), (220, 400), (138, 566), 24)            # sleeve top
-    P += curve((138, 566), (200, 640), (262, 690), 10)            # cuff
-    P += curve((262, 690), (330, 640), (390, 586), 14)            # sleeve under
-    P += curve((390, 586), (388, 1000), (398, 1404), 24)          # side
-    P += curve((398, 1404), (700, 1420), (1002, 1404), 30)        # hem
-    R = [(1400 - x, y) for x, y in P]
-    pts = P[:-0 or None]
+    f = FIT
+    nk = (f['nk'][0], f['nk'][1] + (0 if view == 'back' else 4))
+    P = [nk]
+    P += curve(nk, ((nk[0] + f['sh'][0]) / 2, (nk[1] + f['sh'][1]) / 2 + 8), f['sh'], 20)
+    P += curve(f['sh'], f['sc'], f['c1'], 24)
+    P += curve(f['c1'], f['cc'], f['c2'], 10)
+    P += curve(f['c2'], f['uc'], f['u'], 14)
+    P += curve(f['u'], (f['u'][0] - 2, (f['u'][1] + f['hem'][1]) / 2), f['hem'], 24)
+    P += curve(f['hem'], (700, f['hc']), (1400 - f['hem'][0], f['hem'][1]), 30)
     left = P
     right = list(reversed([(1400 - x, y) for x, y in P]))
-    pts = left[:-30] + [(x, y) for x, y in P[-30:]] + right[:-1]
     S = 2
     im = Image.new('L', (W * S, H * S), 0)
     ImageDraw.Draw(im).polygon([(x * S, y * S) for x, y in left + right], fill=255)
@@ -81,21 +85,30 @@ def stroke(pts, width):
     d.line([(x * S, y * S) for x, y in pts], fill=255, width=int(width * S), joint='curve')
     return np.asarray(im.resize((W, H), Image.LANCZOS), dtype=np.float32) / 255
 
-def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
+def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1, fit='box'):
+    global FIT
+    FIT = FITS[fit]
+    f = FIT
+    B = FITS['box']
     rng = np.random.default_rng(seed)
     m = silhouette(view) if view != 'close' else np.ones((H, W), np.float32)
     # ---------- height field ----------
     base = np.clip(blur(m, 26), 0, 1) ** 0.7
-    folds = line_layer([
-        (395, 590, 585, 800, 46, 1.0), (1005, 590, 815, 800, 46, 1.0),
-        (410, 640, 520, 920, 30, -.7), (990, 640, 880, 920, 30, -.7),
-        (200, 610, 345, 520, 34, .9), (1200, 610, 1055, 520, 34, .9),
-        (240, 650, 360, 590, 20, -.6), (1160, 650, 1040, 590, 20, -.6),
-        (470, 1404, 500, 1240, 40, .8), (930, 1404, 905, 1250, 40, .8),
-        (620, 1410, 650, 1300, 26, -.5), (780, 1410, 760, 1290, 30, .6),
-        (560, 260, 470, 380, 24, .5), (840, 260, 930, 380, 24, .5),
-        (420, 1100, 440, 1350, 34, .5), (980, 1100, 960, 1350, 34, -.4),
-    ])
+    du = (f['u'][0] - B['u'][0], f['u'][1] - B['u'][1])
+    dc = (f['c1'][0] - B['c1'][0], f['c1'][1] - B['c1'][1])
+    dh = f['hem'][1] - B['hem'][1]
+    def mir(L):
+        out = []
+        for (x1, y1, x2, y2, w, v) in L:
+            out += [(x1, y1, x2, y2, w, v), (1400 - x1, y1, 1400 - x2, y2, w, v)]
+        return out
+    tr = lambda L, dx, dy: [(x1 + dx, y1 + dy, x2 + dx, y2 + dy, w, v) for (x1, y1, x2, y2, w, v) in L]
+    folds = line_layer(
+        mir(tr([(395, 590, 585, 800, 46, 1.0), (410, 640, 520, 920, 30, -.7)], du[0], du[1])) +
+        mir(tr([(200, 610, 345, 520, 34, .9), (240, 650, 360, 590, 20, -.6)], dc[0], dc[1])) +
+        tr([(470, 1404, 500, 1240, 40, .8), (930, 1404, 905, 1250, 40, .8), (620, 1410, 650, 1300, 26, -.5), (780, 1410, 760, 1290, 30, .6)], 0, dh) +
+        [(560, 260, 470, 380, 24, .5), (840, 260, 930, 380, 24, .5), (420 + du[0], 1100, 440 + du[0], 1350 + dh, 34, .5), (980 - du[0], 1100, 960 - du[0], 1350 + dh, 34, -.4)]
+    )
     folds = blur(folds, 22)
     lowN = blur(rng.standard_normal((H, W)).astype(np.float32), 45)
     lowN /= np.abs(lowN).max() + 1e-6
@@ -123,11 +136,15 @@ def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
     # seams
     seamsL = []
     if True:
-        seamsL.append(stroke(curve((338, 296), (360, 440), (392, 566)), 3))
-        seamsL.append(stroke(curve((1062, 296), (1040, 440), (1008, 566)), 3))
-        seamsL.append(stroke(curve((404, 1366), (700, 1378), (996, 1366)), 2.2))
-        seamsL.append(stroke(curve((174, 588), (230, 640), (308, 672)), 2.2))
-        seamsL.append(stroke(curve((1226, 588), (1170, 640), (1092, 672)), 2.2))
+        sh, u, c1, cc, c2, hm = f['sh'], f['u'], f['c1'], f['cc'], f['c2'], f['hem']
+        ctl = ((sh[0] + u[0]) / 2 + 12, (sh[1] + u[1]) / 2)
+        seamsL.append(stroke(curve(sh, ctl, u), 3))
+        seamsL.append(stroke(curve((1400 - sh[0], sh[1]), (1400 - ctl[0], ctl[1]), (1400 - u[0], u[1])), 3))
+        seamsL.append(stroke(curve((hm[0] + 6, hm[1] - 38), (700, f['hc'] - 40), (1400 - hm[0] - 6, hm[1] - 38)), 2.2))
+        dv = np.array(sh, float) - np.array(c1, float); dv = dv / np.linalg.norm(dv) * 26
+        q = lambda p: (p[0] + dv[0], p[1] + dv[1])
+        seamsL.append(stroke(curve(q(c1), q(cc), q(c2)), 2.2))
+        seamsL.append(stroke(curve(((1400 - q(c1)[0]), q(c1)[1]), ((1400 - q(cc)[0]), q(cc)[1]), ((1400 - q(c2)[0]), q(c2)[1])), 2.2))
     seams = sum(seamsL) if view != 'close' else np.zeros((H, W), np.float32)
     seam_glow = blur(seams, 6)
     col = np.array(tee_rgb, np.float32) / 255
@@ -141,16 +158,18 @@ def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
     if view == 'close':
         pass
     elif view == 'back':
-        neck_top = curve((560, 236), (700, 268), (840, 236))
+        nx, ny = f['nk']
+        neck_top = curve((nx - 6, ny), (700, ny + 32), (1406 - nx, ny))
         band = stroke(neck_top, 30)
         band = band * m
         rib = 1 + 0.06 * np.sin(xx * 2 * np.pi / 5.0)
         fabric = fabric * (1 - band[..., None]) + (fabric * 0.9 * rib[..., None]) * band[..., None]
-        fabric -= (stroke(curve((546, 252), (700, 286), (854, 252)), 2) * 0.08)[..., None]
+        fabric -= (stroke(curve((nx - 20, ny + 16), (700, ny + 50), (1420 - nx, ny + 16)), 2) * 0.08)[..., None]
     else:
         # inside back of neck visible
-        inner = poly_layer([curve((566, 240), (700, 226), (834, 240)) + list(reversed(curve((566, 240), (700, 352), (834, 240))))])
-        band = stroke(curve((570, 246), (700, 358), (830, 246)), 30)
+        nx, ny = f['nk'][0], f['nk'][1] + 4
+        inner = poly_layer([curve((nx, ny), (700, ny - 14), (1400 - nx, ny)) + list(reversed(curve((nx, ny), (700, ny + 112), (1400 - nx, ny))))])
+        band = stroke(curve((nx + 4, ny + 6), (700, ny + 118), (1396 - nx, ny + 6)), 30)
         fabric = fabric * (1 - inner[..., None]) + (fabric * 0.55) * inner[..., None]
         rib = 1 + 0.06 * np.sin(xx * 2 * np.pi / 5.0)
         fabric = fabric * (1 - band[..., None]) + (fabric * 0.92 * rib[..., None]) * band[..., None]
@@ -197,15 +216,15 @@ def render(tee_rgb, prints, view='back', out='out.jpg', wash=0.5, seed=1):
     img = Image.fromarray((outimg * 255).astype(np.uint8))
     d = ImageDraw.Draw(img)
     # woven side tab on left side seam
-    tx, ty = 382, 1250
+    tx, ty = f['hem'][0] - 16, f['hem'][1] - 154
     if view == 'close': img.save(out, quality=90); return
     d.rectangle([tx, ty, tx + 22, ty + 54], fill=(26, 24, 22))
     d.rectangle([tx + 4, ty + 6, tx + 8, ty + 48], fill=(214, 204, 182))
     d.line([(tx + 22, ty), (tx + 22, ty + 54)], fill=(10, 10, 10), width=2)
     if view == 'front':
         # inner neck label
-        d.rectangle([668, 246, 732, 274], fill=(30, 28, 26))
-        d.text((678, 251), "BELO", fill=(224, 214, 190))
+        d.rectangle([668, f['nk'][1] + 10, 732, f['nk'][1] + 38], fill=(30, 28, 26))
+        d.text((678, f['nk'][1] + 15), "BELO", fill=(224, 214, 190))
     img.save(out, quality=88)
 
 if __name__ == '__main__':

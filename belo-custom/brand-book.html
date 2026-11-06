@@ -111,6 +111,18 @@ p { margin: 0; }
 .pilar + .pilar { border-left: 1px solid #C9BB9C; padding-left: 24px; }
 .pilar .mono { color: var(--terra); }
 @media (max-width: 820px) { .pilares { grid-template-columns: 1fr; } .pilar + .pilar { border-left: 0; padding-left: 0; border-top: 1px solid #C9BB9C; } }
+.nome { margin-top: clamp(56px, 8vw, 104px); background: var(--graxa); color: var(--osso); padding: clamp(28px, 4vw, 48px); display: grid; gap: 28px; }
+.nome-eyebrow { color: var(--ipe); }
+.nome-eq { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1.15fr); gap: 20px 24px; align-items: start; }
+.nome-p { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.nome-p .mono { color: var(--terra-claro); font-size: 11px; }
+.nome-p p { font-size: 15px; line-height: 1.5; color: var(--osso-dim); }
+.nome-w { font-family: var(--f-display); font-weight: 900; text-transform: uppercase; font-size: clamp(52px, 6vw, 80px); line-height: .85; }
+.nome-s { font-family: var(--f-script); color: var(--ipe); white-space: nowrap; font-size: clamp(40px, 4.4vw, 60px); line-height: 1; transform: rotate(-5deg); transform-origin: left bottom; }
+.nome-op { font-family: var(--f-display); font-weight: 900; font-size: clamp(44px, 5vw, 64px); line-height: .9; color: var(--cromo); }
+.nome-res { border-left: 2px solid var(--graxa-3); padding-left: 24px; }
+.nome-uso { border-top: 1px solid var(--graxa-3); padding-top: 18px; color: var(--osso-dim); font-size: 11px; line-height: 1.8; }
+@media (max-width: 900px) { .nome-eq { grid-template-columns: 1fr; } .nome-op { display: none; } .nome-res { border-left: 0; padding-left: 0; border-top: 2px solid var(--graxa-3); padding-top: 20px; } }
 
 /* ---------- ARQUITETURA ---------- */
 .arvore { display: grid; gap: 14px; }
@@ -295,7 +307,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
       <div class="lk-bot mono">
         <span>Roupa de quem monta moto</span>
         <span>Est. 2016</span>
-        <span>CEP 74603-010</span>
+        <span>CEP 74715-120</span>
       </div>
     </div>
 
@@ -333,6 +345,30 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
         <h3>Cada moto vira história</h3>
         <p>Toda moto entregue ganha uma camiseta numerada com a ficha da obra. O dono leva a primeira junto com a chave. O resto vira edição limitada.</p>
       </div>
+    </div>
+
+    <div class="nome">
+      <span class="mono nome-eyebrow">O nome · por que Garage Goods</span>
+      <div class="nome-eq">
+        <div class="nome-p">
+          <span class="nome-w">Garage</span>
+          <span class="mono">Garagem</span>
+          <p>Onde a Belo começou em 2016 e onde toda moto é desmontada e montada de novo, à mão. É o lugar de origem, não um estilo.</p>
+        </div>
+        <span class="nome-op" aria-hidden="true">+</span>
+        <div class="nome-p">
+          <span class="nome-w">Goods</span>
+          <span class="mono">Mercadoria · coisa boa</span>
+          <p>Em inglês, "goods" são os produtos de uma loja, como nos armazéns americanos antigos de "sporting goods" e "dry goods". E a palavra carrega "good": bom, bem feito.</p>
+        </div>
+        <span class="nome-op" aria-hidden="true">=</span>
+        <div class="nome-p nome-res">
+          <span class="nome-s">Garage Goods</span>
+          <span class="mono">As coisas boas que saem da garagem</span>
+          <p>Tudo que leva o nome sai do mesmo lugar e no mesmo padrão das motos: pouca peça, feita com cuidado, pra durar.</p>
+        </div>
+      </div>
+      <p class="nome-uso mono">Fala-se "gá-radj gúds" · Escreve-se sempre em duas palavras, com iniciais maiúsculas · Na assinatura, sempre em letreiro cursivo</p>
     </div>
   </div>
 </section>
@@ -512,7 +548,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
     <div class="selos">
       <span class="carimbo t dup">Feito à mão em Goiânia</span>
       <span class="carimbo i">Peça Nº 018 / 030</span>
-      <span class="carimbo o">CEP 74603-010</span>
+      <span class="carimbo o">CEP 74715-120</span>
       <span class="carimbo cheio">Aprovado na bancada</span>
       <span class="carimbo t">BC-047-BOB</span>
       <span class="carimbo i dup">Do cerrado pra estrada</span>
@@ -618,7 +654,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
               <div><dt>PEÇA</dt><dd>18 / 30</dd></div>
               <div><dt>TAM.</dt><dd>G</dd></div>
             </dl>
-            <div class="cep">CEP 74603-010 · GYN</div>
+            <div class="cep">CEP 74715-120 · GYN</div>
           </div>
         </div>
         <div class="leg"><span class="mono">Tag de papel</span><p>Papel kraft claro, preenchido à caneta na oficina. Número da obra e da peça escritos à mão.</p></div>

@@ -166,7 +166,7 @@ function P1(ink, paper){
   s += `<g transform="translate(110,300) scale(1.3)">${bobber(ink, paper)}</g>`;
   // side blocks
   s += `<g font-family="${F.ultra}" fill="${ink}">`;
-  s += `<text x="70" y="860" font-family="${F.osw}" font-weight="700" font-size="34" letter-spacing="3">CEP</text><text x="70" y="925" font-size="64">74603</text><text x="70" y="962" font-family="${F.osw}" font-weight="600" font-size="30" letter-spacing="4">— 010 —</text>`;
+  s += `<text x="70" y="860" font-family="${F.osw}" font-weight="700" font-size="34" letter-spacing="3">CEP</text><text x="70" y="925" font-size="64">74715</text><text x="70" y="962" font-family="${F.osw}" font-weight="600" font-size="30" letter-spacing="4">— 120 —</text>`;
   s += `<text x="930" y="860" text-anchor="end" font-family="${F.osw}" font-weight="700" font-size="34" letter-spacing="3">GOIÂNIA</text><text x="930" y="925" text-anchor="end" font-size="64">BRAZIL</text><text x="930" y="962" text-anchor="end" font-family="${F.osw}" font-weight="600" font-size="30" letter-spacing="4">— GO —</text>`;
   s += `</g>`;
   s += `<line x1="70" y1="880" x2="230" y2="880" stroke="${ink}" stroke-width="3"/><line x1="770" y1="880" x2="930" y2="880" stroke="${ink}" stroke-width="3"/>`;
@@ -256,7 +256,7 @@ function P4(ink, acc, paper){
   for (let i = 0; i < 4; i++){ s += `<rect x="300" y="${548 + i*16}" width="400" height="7" fill="${ink}"/>`; }
   s += `<text x="500" y="690" text-anchor="middle" font-family="${F.script}" font-size="58" fill="${ink}">Goiânia</text>`;
   s += `<text x="500" y="890" text-anchor="middle" font-family="${F.ultra}" font-size="100" letter-spacing="6" fill="${ink}">MOTO WORKS</text>`;
-  s += `<text x="500" y="950" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="30" letter-spacing="11" fill="${ink}">HAND BUILT · HARD RIDDEN · Nº 74603</text>`;
+  s += `<text x="500" y="950" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="30" letter-spacing="11" fill="${ink}">HAND BUILT · HARD RIDDEN · Nº 74715</text>`;
   s += `<text x="215" y="410" text-anchor="middle" font-size="46" fill="${acc}">★</text><text x="785" y="410" text-anchor="middle" font-size="46" fill="${acc}">★</text>`;
   return svg('p4', 1000, 980, s);
 }
@@ -310,10 +310,185 @@ function F2(ink, paper){
   return svg('f2', 500, 470, s);
 }
 
+
+// ---------- N1 Ignition ----------
+function N1(ink, acc, paper){
+  let s = '';
+  s += arcText('BELO IGNITION CO.', 500, 560, 380, {font: F.ultra, size: 84, ls: 4, fill: ink});
+  const X = 500;
+  // spark burst
+  for (let a = 0; a < 360; a += 10){ const l = (a/10)%2 ? 70 : 120; s += `<line x1="${X + Math.cos(deg(a))*34}" y1="${880 + Math.sin(deg(a))*34}" x2="${X + Math.cos(deg(a))*l}" y2="${880 + Math.sin(deg(a))*l}" stroke="${acc}" stroke-width="${(a/10)%2 ? 3 : 5}" stroke-linecap="round"/>`; }
+  s += `<path d="M${X-8},846 L${X+10},866 L${X-6},874 L${X+12},900" fill="none" stroke="${acc}" stroke-width="6" stroke-linejoin="round"/>`;
+  // terminal
+  s += `<rect x="${X-18}" y="240" width="36" height="14" rx="4" fill="${ink}"/><rect x="${X-24}" y="256" width="48" height="26" rx="4" fill="${ink}"/><rect x="${X-12}" y="282" width="24" height="14" fill="${ink}"/>`;
+  // insulator
+  const ins = `M${X-34},296 L${X+34},296 L${X+46},560 L${X-46},560 Z`;
+  s += `<path d="${ins}" fill="${paper}" stroke="${ink}" stroke-width="5"/>`;
+  for (let i = 0; i < 5; i++){ const y = 310 + i*22; const w = 34 + (y-296)/264*12 + 8; s += `<path d="M${X-w},${y} Q${X},${y+10} ${X+w},${y}" fill="none" stroke="${ink}" stroke-width="5"/>`; }
+  s += hatch(`M${X+8},420 L${X+40},420 L${X+46},560 L${X+8},560 Z`, X, 420, 60, 140, 90, 5, 1.6, ink);
+  s += `<text x="${X}" y="490" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="18" letter-spacing="2" fill="${ink}" transform="rotate(-90 ${X} 490)">BELO · GYN</text>`;
+  // hex nut
+  s += `<path d="M${X-96},560 L${X+96},560 L${X+96},650 L${X-96},650 Z" fill="${paper}" stroke="${ink}" stroke-width="5"/>`;
+  s += `<line x1="${X-36}" y1="560" x2="${X-36}" y2="650" stroke="${ink}" stroke-width="4"/><line x1="${X+36}" y1="560" x2="${X+36}" y2="650" stroke="${ink}" stroke-width="4"/>`;
+  s += hatch(`M${X+38},562 h56 v86 h-56 Z`, X+38, 562, 56, 86, 0, 6, 1.6, ink);
+  s += hatch(`M${X-94},562 h56 v86 h-56 Z`, X-94, 562, 56, 86, 90, 9, 1.2, ink);
+  // shell + threads
+  s += `<rect x="${X-70}" y="650" width="140" height="34" fill="${ink}"/>`;
+  s += `<rect x="${X-58}" y="684" width="116" height="128" fill="${paper}" stroke="${ink}" stroke-width="4"/>`;
+  for (let y = 690; y < 808; y += 11) s += `<line x1="${X-58}" y1="${y+8}" x2="${X+58}" y2="${y}" stroke="${ink}" stroke-width="4"/>`;
+  // electrodes
+  s += `<rect x="${X-5}" y="812" width="10" height="22" fill="${ink}"/><path d="M${X+40},812 L${X+40},852 L${X-6},852" fill="none" stroke="${ink}" stroke-width="9"/>`;
+  // side labels
+  s += `<text x="150" y="640" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="30" letter-spacing="6" fill="${ink}">EST.</text><text x="150" y="700" text-anchor="middle" font-family="${F.ultra}" font-size="56" fill="${ink}">2016</text>`;
+  s += `<text x="850" y="640" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="30" letter-spacing="6" fill="${ink}">GOIÁS</text><text x="850" y="700" text-anchor="middle" font-family="${F.ultra}" font-size="56" fill="${ink}">BR</text>`;
+  s += `<text x="500" y="1050" text-anchor="middle" font-family="${F.script}" font-size="84" fill="${acc}">Fire on every stroke</text>`;
+  s += `<text x="500" y="1110" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="26" letter-spacing="10" fill="${ink}">PARTS · LABOR · GOOD TIMES</text>`;
+  return svg('n1', 1000, 1130, s);
+}
+// ---------- N2 Speedometer ----------
+function N2(ink, acc, paper){
+  let s = ''; const cx = 500, cy = 470, R0 = 330;
+  s += `<circle cx="${cx}" cy="${cy}" r="${R0+22}" fill="none" stroke="${ink}" stroke-width="10"/><circle cx="${cx}" cy="${cy}" r="${R0}" fill="none" stroke="${ink}" stroke-width="3"/>`;
+  const a0 = 135, sweep = 270, max = 120;
+  for (let v = 0; v <= max; v += 5){
+    const a = deg(a0 + sweep * v / max), major = v % 20 === 0, mid = v % 10 === 0;
+    const r1 = R0 - 16, r2 = R0 - (major ? 64 : mid ? 44 : 32);
+    s += `<line x1="${cx + Math.cos(a)*r1}" y1="${cy + Math.sin(a)*r1}" x2="${cx + Math.cos(a)*r2}" y2="${cy + Math.sin(a)*r2}" stroke="${v >= 100 ? acc : ink}" stroke-width="${major ? 9 : 4}"/>`;
+    if (major){ const rt = R0 - 108; s += `<text x="${cx + Math.cos(a)*rt}" y="${cy + Math.sin(a)*rt + 18}" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="52" fill="${v >= 100 ? acc : ink}">${v}</text>`; }
+  }
+  // redline arc
+  const ra = deg(a0 + sweep*100/max), rb = deg(a0 + sweep);
+  s += `<path d="M${cx + Math.cos(ra)*(R0-8)},${cy + Math.sin(ra)*(R0-8)} A${R0-8},${R0-8} 0 0 1 ${cx + Math.cos(rb)*(R0-8)},${cy + Math.sin(rb)*(R0-8)}" fill="none" stroke="${acc}" stroke-width="16"/>`;
+  s += `<text x="${cx}" y="${cy-118}" text-anchor="middle" font-family="${F.ultra}" font-size="64" letter-spacing="4" fill="${ink}">BELO</text>`;
+  s += `<text x="${cx}" y="${cy-78}" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="22" letter-spacing="8" fill="${ink}">KM/H · GOIÂNIA</text>`;
+  // odometer
+  s += `<rect x="${cx-120}" y="${cy+96}" width="240" height="56" fill="${ink}"/>`;
+  '074715'.split('').forEach((d, i) => { s += `<rect x="${cx-114 + i*39}" y="${cy+102}" width="33" height="44" fill="${paper}"/><text x="${cx-97.5 + i*39}" y="${cy+137}" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="34" fill="${ink}">${d}</text>`; });
+  // needle at 30
+  const na = deg(a0 + sweep*16/max);
+  s += `<path d="M${cx + Math.cos(na)*(R0-60)},${cy + Math.sin(na)*(R0-60)} L${cx + Math.cos(na+Math.PI/2)*12},${cy + Math.sin(na+Math.PI/2)*12} L${cx - Math.cos(na)*50},${cy - Math.sin(na)*50} L${cx + Math.cos(na-Math.PI/2)*12},${cy + Math.sin(na-Math.PI/2)*12} Z" fill="${acc}"/>`;
+  s += `<circle cx="${cx}" cy="${cy}" r="26" fill="${ink}"/><circle cx="${cx}" cy="${cy}" r="9" fill="${paper}"/>`;
+  s += `<text x="500" y="980" text-anchor="middle" font-family="${F.ultra}" font-size="112" letter-spacing="4" fill="${ink}">TWO SPEEDS</text>`;
+  s += `<text x="500" y="1070" text-anchor="middle" font-family="${F.script}" font-size="80" fill="${acc}">slow &amp; slower</text>`;
+  return svg('n2', 1000, 1100, s);
+}
+// ---------- N3 Open Face Society (chest) ----------
+function N3(ink, acc, paper){
+  let s = ''; const cx = 300, cy = 290;
+  // strap behind
+  s += `<path d="M${cx-178},${cy+20} Q${cx},${cy+64} ${cx+178},${cy+20}" fill="none" stroke="${ink}" stroke-width="22"/>`;
+  // shell
+  const shell = `M${cx-160},${cy+70} C${cx-170},${cy-60} ${cx-120},${cy-170} ${cx},${cy-176} C${cx+120},${cy-170} ${cx+170},${cy-60} ${cx+160},${cy+70} Q${cx},${cy+96} ${cx-160},${cy+70} Z`;
+  s += `<path d="${shell}" fill="${paper}" stroke="${ink}" stroke-width="8"/>`;
+  s += hatch(shell, cx-170, cy-180, 340, 280, 60, 7, 1.6, ink);
+  s += `<path d="M${cx-60},${cy-170} L${cx-60},${cy+82} M${cx+60},${cy-170} L${cx+60},${cy+82}" stroke="${paper}" stroke-width="40"/>`;
+  s += `<path d="M${cx-36},${cy-174} L${cx-36},${cy+86} L${cx+36},${cy+86} L${cx+36},${cy-174} Z" fill="${acc}"/>`;
+  s += `<path d="${shell}" fill="none" stroke="${ink}" stroke-width="8"/>`;
+  // brim + snaps
+  s += `<path d="M${cx-166},${cy+64} Q${cx},${cy+104} ${cx+166},${cy+64} L${cx+160},${cy+100} Q${cx},${cy+136} ${cx-160},${cy+100} Z" fill="${ink}"/>`;
+  [-110, 0, 110].forEach(dx => s += `<circle cx="${cx+dx}" cy="${cy + 104 - Math.abs(dx)*0.12}" r="7" fill="${paper}"/>`);
+  // goggles
+  [-68, 68].forEach(dx => { s += `<circle cx="${cx+dx}" cy="${cy+18}" r="54" fill="${ink}"/><circle cx="${cx+dx}" cy="${cy+18}" r="38" fill="${paper}"/>` + hatch(`M${cx+dx-38},${cy+18} a38,38 0 1 0 76,0 a38,38 0 1 0 -76,0`, cx+dx-38, cy-20, 76, 76, 45, 6, 1.6, ink) + `<path d="M${cx+dx-22},${cy+2} q10,-12 26,-10" stroke="${paper}" stroke-width="6" fill="none" stroke-linecap="round"/>`; });
+  s += `<rect x="${cx-16}" y="${cy+8}" width="32" height="18" fill="${ink}"/>`;
+  s += `<text x="${cx}" y="${cy-40}" text-anchor="middle" font-family="${F.ultra}" font-size="58" fill="${ink}">B</text>`;
+  s += arcText('OPEN FACE SOCIETY', cx, cy+30, 245, {font: F.ultra, size: 46, ls: 3, fill: ink});
+  s += `<text x="${cx}" y="${cy+200}" text-anchor="middle" font-family="${F.script}" font-size="60" fill="${acc}">Belo Garage Goods</text>`;
+  s += `<text x="${cx}" y="${cy+242}" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="20" letter-spacing="8" fill="${ink}">GOIÂNIA · MEMBRO DESDE 2016</text>`;
+  return svg('n3', 600, 560, s);
+}
+// ---------- O1 Anatomia de um V2 ----------
+function O1(ink, paper){
+  let s = '';
+  s += `<line x1="60" y1="70" x2="940" y2="70" stroke="${ink}" stroke-width="2"/><text x="60" y="56" font-family="${F.osw}" font-weight="600" font-size="22" letter-spacing="6" fill="${ink}">BELO CUSTOM · GARAGE GOODS</text><text x="940" y="56" text-anchor="end" font-family="${F.osw}" font-weight="600" font-size="22" letter-spacing="6" fill="${ink}">FIG. 1</text>`;
+  s += `<text x="500" y="170" text-anchor="middle" font-family="${F.ultra}" font-size="88" letter-spacing="2" fill="${ink}">ANATOMIA</text>`;
+  s += `<text x="500" y="232" text-anchor="middle" font-family="${F.it}" font-style="italic" font-weight="600" font-size="52" fill="${ink}">de um V2 de garagem</text>`;
+  // engine
+  const E = (x, y) => [x, y];
+  s += `<g transform="translate(500,700) scale(2.1)">` +
+    cylinder(-12, -30, -24, ink, paper) + cylinder(14, -30, 24, ink, paper) +
+    `<ellipse cx="0" cy="0" rx="64" ry="44" fill="${paper}" stroke="${ink}" stroke-width="3"/>` + hatch('M-64,0 A64,44 0 1 0 64,0 A64,44 0 1 0 -64,0 Z', -64, -44, 128, 88, 30, 3.2, 0.8, ink) +
+    `<circle cx="-26" cy="-2" r="20" fill="${paper}" stroke="${ink}" stroke-width="2.4"/><circle cx="-26" cy="-2" r="6" fill="${ink}"/>` +
+    `<rect x="30" y="-10" width="96" height="40" rx="20" fill="${paper}" stroke="${ink}" stroke-width="3"/>` + hatch('M34,26 h88 v-32 h-88 Z', 30, -10, 96, 40, 35, 4, 0.9, ink) +
+    `<path d="M-30,-14 L-60,-112 M-22,-14 L-50,-112" stroke="${ink}" stroke-width="2.4"/>` +
+    `<rect x="-6" y="-76" width="22" height="16" rx="3" fill="${ink}"/><circle cx="34" cy="-70" r="18" fill="${paper}" stroke="${ink}" stroke-width="3"/><circle cx="34" cy="-70" r="8" fill="none" stroke="${ink}" stroke-width="2"/>` +
+    `</g>`;
+  // leaders
+  const L = [
+    [1, 380, 345, 150, 300], [2, 600, 380, 860, 330], [3, 410, 520, 140, 470], [4, 405, 610, 140, 620],
+    [5, 520, 560, 870, 500], [6, 572, 553, 880, 600], [7, 470, 760, 150, 790], [8, 700, 730, 870, 800]
+  ];
+  L.forEach(([n, x1, y1, x2, y2]) => {
+    s += `<circle cx="${x1}" cy="${y1}" r="6" fill="${ink}"/><path d="M${x1},${y1} L${x2 + (x2 < 500 ? 30 : -30)},${y2} L${x2},${y2}" fill="none" stroke="${ink}" stroke-width="2"/>`;
+    s += `<circle cx="${x2 + (x2 < 500 ? -16 : 16)}" cy="${y2}" r="20" fill="${paper}" stroke="${ink}" stroke-width="2.5"/><text x="${x2 + (x2 < 500 ? -16 : 16)}" y="${y2 + 8}" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="22" fill="${ink}">${n}</text>`;
+  });
+  const names = ['Cabeçote', 'Aletas de refrigeração', 'Cilindro dianteiro', 'Varetas', 'Carburador', 'Filtro de ar', 'Cárter', 'Tampa da primária'];
+  s += `<line x1="60" y1="900" x2="940" y2="900" stroke="${ink}" stroke-width="2"/>`;
+  names.forEach((t, i) => { const col = i < 4 ? 0 : 1, row = i % 4; s += `<text x="${80 + col*450}" y="${950 + row*42}" font-family="${F.osw}" font-weight="600" font-size="26" letter-spacing="2" fill="${ink}">${i+1}. ${t.toUpperCase()}</text>`; });
+  s += `<line x1="60" y1="1130" x2="940" y2="1130" stroke="${ink}" stroke-width="2"/>`;
+  s += `<text x="500" y="1176" text-anchor="middle" font-family="${F.it}" font-style="italic" font-weight="600" font-size="30" fill="${ink}">Patente da garagem Nº 74.715-120 · Goiânia, 2016</text>`;
+  return svg('o1', 1000, 1200, s);
+}
+// ---------- O2 Union Local 62 ----------
+function wrench(len, ink, paper){
+  return `<g><rect x="${-len/2}" y="-14" width="${len}" height="28" rx="14" fill="${ink}"/>` +
+    `<circle cx="${-len/2}" cy="0" r="40" fill="${ink}"/><rect x="${-len/2-46}" y="-14" width="44" height="28" fill="${paper}"/>` +
+    `<circle cx="${len/2}" cy="0" r="36" fill="${ink}"/><polygon points="${len/2+18},0 ${len/2+9},15.6 ${len/2-9},15.6 ${len/2-18},0 ${len/2-9},-15.6 ${len/2+9},-15.6" fill="${paper}"/>` +
+    `<rect x="${-len/2+70}" y="-5" width="${len-150}" height="10" rx="5" fill="${paper}"/></g>`;
+}
+function O2(ink, acc, paper){
+  let s = ''; const cx = 500, cy = 560;
+  s += arcText('GARAGE GOODS UNION', cx, cy, 400, {font: F.ultra, size: 86, ls: 4, fill: ink});
+  s += `<g transform="translate(${cx},${cy}) rotate(40)">${wrench(560, ink, paper)}</g><g transform="translate(${cx},${cy}) rotate(-40)">${wrench(560, ink, paper)}</g>`;
+  // piston
+  s += `<g transform="translate(${cx},${cy-30})">`;
+  s += `<path d="M-110,-150 Q-110,-176 -84,-180 L84,-180 Q110,-176 110,-150 L104,40 Q0,62 -104,40 Z" fill="${paper}" stroke="${ink}" stroke-width="9"/>`;
+  [-140, -116, -92].forEach(y => s += `<line x1="-108" y1="${y}" x2="108" y2="${y}" stroke="${ink}" stroke-width="8"/>`);
+  s += hatch('M30,-84 L104,-84 L104,40 Q60,50 30,52 Z', 30, -84, 76, 140, 90, 6, 2, ink);
+  s += `<circle cx="0" cy="-20" r="30" fill="${paper}" stroke="${ink}" stroke-width="8"/><circle cx="0" cy="-20" r="11" fill="${ink}"/>`;
+  s += `<path d="M-26,40 L-34,190 L34,190 L26,40" fill="${paper}" stroke="${ink}" stroke-width="8"/><circle cx="0" cy="200" r="46" fill="${paper}" stroke="${ink}" stroke-width="9"/><circle cx="0" cy="200" r="20" fill="${ink}"/>`;
+  s += `</g>`;
+  // ribbon
+  s += `<path d="M190,780 L260,760 L260,850 L190,870 L216,816 Z" fill="${ink}"/><path d="M810,780 L740,760 L740,850 L810,870 L784,816 Z" fill="${ink}"/>`;
+  s += `<path d="M250,740 Q500,690 750,740 L750,840 Q500,790 250,840 Z" fill="${acc}" stroke="${ink}" stroke-width="6"/>`;
+  const rid = uid('r'); s += `<path id="${rid}" d="M270,808 Q500,760 730,808" fill="none"/><text font-family="${F.ultra}" font-size="64" letter-spacing="8" fill="${paper}"><textPath href="#${rid}" startOffset="50%" text-anchor="middle">LOCAL 62</textPath></text>`;
+  s += `<text x="${cx}" y="960" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="34" letter-spacing="10" fill="${ink}">MECÂNICOS · PILOTOS · AFINS</text>`;
+  s += `<text x="${cx}" y="1040" text-anchor="middle" font-family="${F.script}" font-size="72" fill="${acc}">Goiânia, desde 2016</text>`;
+  return svg('o2', 1000, 1070, s);
+}
+// ---------- O3 Belo Motor Oil ----------
+function O3(ink, acc, paper){
+  let s = ''; const cx = 500;
+  s += arcText('HIGH MILEAGE · LOW SPEED', cx, 600, 420, {font: F.ultra, size: 62, ls: 3, fill: ink});
+  // spout
+  s += `<path d="M330,330 L284,276 L270,288 L300,352 Z" fill="${ink}"/><rect x="290" y="318" width="70" height="40" rx="8" fill="${ink}" transform="rotate(-42 325 338)"/>`;
+  [[272,308,12],[266,346,9],[262,380,7]].forEach(([x,y,r]) => s += `<path d="M${x},${y-r*1.6} C${x+r*0.7},${y-r*0.4} ${x+r},${y} ${x+r},${y+r*0.3} A${r},${r} 0 0 1 ${x-r},${y+r*0.3} C${x-r},${y} ${x-r*0.7},${y-r*0.4} ${x},${y-r*1.6} Z" fill="${acc}"/>`);
+  // can top
+  s += `<path d="M300,330 Q500,290 700,330 L700,360 Q500,320 300,360 Z" fill="${ink}"/><rect x="560" y="276" width="80" height="44" rx="8" fill="${ink}"/><rect x="574" y="262" width="52" height="18" rx="4" fill="${ink}"/>`;
+  // body
+  s += `<path d="M300,350 Q500,312 700,350 L700,830 Q500,868 300,830 Z" fill="${paper}" stroke="${ink}" stroke-width="10"/>`;
+  for (let y = 380; y < 820; y += 120) s += `<path d="M300,${y} Q500,${y-38} 700,${y}" fill="none" stroke="${ink}" stroke-width="3" opacity=".0"/>`;
+  s += hatch('M640,360 L700,350 L700,830 L640,840 Z', 636, 340, 70, 510, 90, 6, 2, ink);
+  s += hatch('M300,350 L346,342 L346,838 L300,830 Z', 296, 340, 54, 510, 90, 9, 1.4, ink);
+  // label
+  s += `<rect x="360" y="420" width="280" height="350" fill="${acc}"/><rect x="372" y="432" width="256" height="326" fill="none" stroke="${paper}" stroke-width="4"/>`;
+  s += `<text x="500" y="520" text-anchor="middle" font-family="${F.ultra}" font-size="74" fill="${paper}">BELO</text>`;
+  s += `<text x="500" y="572" text-anchor="middle" font-family="${F.script}" font-size="54" fill="${paper}">Motor Oil</text>`;
+  s += `<line x1="400" y1="600" x2="600" y2="600" stroke="${paper}" stroke-width="3"/>`;
+  s += `<text x="500" y="648" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="40" letter-spacing="4" fill="${paper}">SAE 20W-50</text>`;
+  s += `<text x="500" y="690" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="20" letter-spacing="4" fill="${paper}">VISCOSIDADE GOIANA</text>`;
+  s += `<text x="500" y="738" text-anchor="middle" font-family="${F.osw}" font-weight="600" font-size="18" letter-spacing="5" fill="${paper}">1 QT · 946 ML</text>`;
+  // bottom rim
+  s += `<path d="M300,830 Q500,868 700,830 L700,852 Q500,890 300,852 Z" fill="${ink}"/>`;
+  s += `<text x="${cx}" y="980" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="34" letter-spacing="10" fill="${ink}">REFINADO EM GOIÂNIA · 2016</text>`;
+  s += `<text x="${cx}" y="1052" text-anchor="middle" font-family="${F.script}" font-size="68" fill="${acc}">Óleo, ferro &amp; fé</text>`;
+  return svg('o3', 1000, 1080, s);
+}
 const T = {
   black: '#29282A', osso: '#E4DCC9', olive: '#4E4F33', terra: '#8B3B22', char: '#3B3A39'
 };
 document.getElementById('out').innerHTML =
   P1('#E07650', T.black) + P2('#26389A', T.osso) + P3('#E4DCC9', '#E0A526', T.olive) +
-  P4('#E9E0CC', '#E0A526', T.terra) + P5('#E9E0CC', '#E0A526', T.char) + F1('#E07650') + F2('#26389A', T.osso);
+  P4('#E9E0CC', '#E0A526', T.terra) + P5('#E9E0CC', '#E0A526', T.char) + F1('#E07650') + F2('#26389A', T.osso) +
+  N1('#1E1B18', '#B8481F', '#E4DCC9') + N2('#E9E0CC', '#E0A526', '#29282A') + N3('#1E1B18', '#B8481F', '#A9A6A0') +
+  O1('#1E1B18', '#E4DCC9') + O2('#E9E0CC', '#C9572C', '#29282A') + O3('#E9E0CC', '#E0A526', '#2C3448');
 </script></body></html>
