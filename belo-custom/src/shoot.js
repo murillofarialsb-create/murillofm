@@ -5,7 +5,7 @@ const { chromium } = require('playwright');
   await p.goto('file://' + process.cwd() + '/prints.html', { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
   await p.waitForTimeout(800);
-  for (const id of ['p1','p2','p3','p4','p5','f1','f2','n1','n2','n3','o1','o2','o3']) {
+  for (const id of ['p1','p2','p3','p4','p5','f1','f2','n1','n2','n3','o1','o2','o3','ch1','ch2']) {
     await p.locator('#' + id).screenshot({ path: id + '.png', omitBackground: true });
   }
   await b.close();

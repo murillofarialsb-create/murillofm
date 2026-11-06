@@ -483,6 +483,11 @@ function O3(ink, acc, paper){
   s += `<text x="${cx}" y="1052" text-anchor="middle" font-family="${F.script}" font-size="68" fill="${acc}">Óleo, ferro &amp; fé</text>`;
   return svg('o3', 1000, 1080, s);
 }
+function CH(id, ink){
+  let s = `<text x="250" y="120" text-anchor="middle" font-family="${F.script}" font-size="150" fill="${ink}" transform="rotate(-8 250 100)">Belo</text>`;
+  s += `<text x="262" y="196" text-anchor="middle" font-family="${F.osw}" font-weight="700" font-size="30" letter-spacing="9" fill="${ink}">GARAGE GOODS</text>`;
+  return svg(id, 500, 215, s);
+}
 const T = {
   black: '#29282A', osso: '#E4DCC9', olive: '#4E4F33', terra: '#8B3B22', char: '#3B3A39'
 };
@@ -490,5 +495,5 @@ document.getElementById('out').innerHTML =
   P1('#E07650', T.black) + P2('#26389A', T.osso) + P3('#E4DCC9', '#E0A526', T.olive) +
   P4('#E9E0CC', '#E0A526', T.terra) + P5('#E9E0CC', '#E0A526', T.char) + F1('#E07650') + F2('#26389A', T.osso) +
   N1('#1E1B18', '#B8481F', '#E4DCC9') + N2('#E9E0CC', '#E0A526', '#29282A') + N3('#1E1B18', '#B8481F', '#A9A6A0') +
-  O1('#1E1B18', '#E4DCC9') + O2('#E9E0CC', '#C9572C', '#29282A') + O3('#E9E0CC', '#E0A526', '#2C3448');
+  O1('#1E1B18', '#E4DCC9') + O2('#E9E0CC', '#C9572C', '#29282A') + O3('#E9E0CC', '#E0A526', '#2C3448') + CH('ch1', '#E9E0CC') + CH('ch2', '#1E1B18');
 </script></body></html>

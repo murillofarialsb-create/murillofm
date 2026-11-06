@@ -208,7 +208,10 @@ p { margin: 0; }
 .produto { display: grid; gap: 16px; align-content: start; min-width: 0; }
 .produto.destaque { grid-column: 1 / -1; grid-template-columns: 1.25fr 1fr; gap: 24px 48px; align-items: center; }
 .produto .foto { position: relative; background: #E4E2DE; }
-.produto .foto img { display: block; width: 100%; height: auto; aspect-ratio: 1100 / 1167; object-fit: cover; }
+.produto .foto img { display: block; width: 100%; height: auto; aspect-ratio: 1800 / 912; object-fit: cover; }
+.grupo { display: grid; gap: 6px; margin: clamp(40px, 6vw, 64px) 0 22px; border-top: 2px solid var(--graxa); padding-top: 16px; }
+.grupo .mono { color: var(--terra); }
+.grupo h3 { font-size: clamp(30px, 4vw, 44px); }
 .lados { position: absolute; left: 14px; bottom: 14px; display: flex; gap: 6px; }
 .lados button, .lados .so { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 7px 12px; border: 1px solid var(--graxa); background: rgba(235,224,201,.85); color: var(--graxa); cursor: pointer; }
 .lados .so { cursor: default; }
@@ -564,50 +567,103 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
     <div class="cap">
       <div class="num"><b>07</b>Coleção 01</div>
       <div class="cap-body">
-        <h2>Primeiro drop: Seca</h2>
-        <p class="lede muted">Cinco peças de estampa grande nas costas, no padrão das marcas de moto que a gente admira: ilustração de verdade, letra em arco, uma ou duas cores de tinta e desgaste de serigrafia. Toda arte nasce de algo da oficina ou de Goiás.</p>
+        <h2>Onze peças, dois cortes</h2>
+        <p class="lede muted">Estampa grande nas costas, no padrão das marcas de moto que a gente admira: ilustração de verdade, letra em arco, uma ou duas cores de tinta e desgaste de serigrafia. Na frente, o “Belo” pequeno no peito. Toda arte nasce de algo da oficina ou de Goiás.</p>
       </div>
     </div>
 
+    <div class="grupo"><span class="mono">Drop 01 · Seca</span><h3>Cinco oversized de lançamento</h3></div>
     <div class="drop">
-      <article class="produto destaque">
-        <div class="foto"><img src="img/m1_back.jpg" alt="House of Slow Machines, costas" width="1100" height="1167" loading="eager"><div class="lados" role="group" aria-label="Lado da peça"><button type="button" class="on" data-src="img/m1_back.jpg" aria-pressed="true">Costas</button><button type="button" data-src="img/m1_front.jpg" aria-pressed="false">Frente</button></div></div>
+      <article class="produto">
+        <div class="foto"><img src="mockups/01-house-of-slow-machines.jpg" alt="House of Slow Machines, frente e costas" width="1800" height="912" loading="lazy"></div>
         <div class="ficha">
           <div class="topo-f"><h3>House of Slow Machines</h3><span class="linha-tag">ESTRADA</span></div>
-          <span class="mono cor-malha">Preto lavado · tinta terra</span>
-          <p>A peça-assinatura. A bobber da casa em traço de gravura, o CEP da oficina e a frase que resume a Belo: aqui nada é feito com pressa. Na frente, só o “Belo” em letreiro no peito.</p>
+          <span class="mono cor-malha">Oversized · preta · tinta terra</span>
+          <p>A peça-assinatura. A bobber da casa em traço de gravura e o CEP da oficina nas costas. Na frente, o “Belo” em letreiro no peito.</p>
         </div>
       </article>
       <article class="produto">
-        <div class="foto"><img src="img/m2_back.jpg" alt="Ipê Engine, costas" width="1100" height="1167" loading="eager"><div class="lados" role="group" aria-label="Lado da peça"><button type="button" class="on" data-src="img/m2_back.jpg" aria-pressed="true">Costas</button><button type="button" data-src="img/m2_front.jpg" aria-pressed="false">Frente</button></div></div>
+        <div class="foto"><img src="mockups/02-ipe-engine.jpg" alt="Ipê Engine, frente e costas" width="1800" height="912" loading="lazy"></div>
         <div class="ficha">
           <div class="topo-f"><h3>Ipê Engine</h3><span class="linha-tag">ESTRADA</span></div>
-          <span class="mono cor-malha">Osso · tinta azul cobalto</span>
-          <p>Um V2 com ipê-amarelo brotando dos cilindros, moldura de flores e raios de sol em gravura. É o encontro do cerrado com a garagem. Na frente, a bobber pequena no peito.</p>
+          <span class="mono cor-malha">Oversized · osso · azul cobalto</span>
+          <p>Um V2 com ipê-amarelo brotando dos cilindros, moldura de flores e raios de sol. Na frente, a bobber pequena no peito.</p>
         </div>
       </article>
       <article class="produto">
-        <div class="foto"><img src="img/m3_back.jpg" alt="Slow Is a Speed, costas" width="1100" height="1167" loading="lazy"><div class="lados"><span class="so">Costas</span></div></div>
+        <div class="foto"><img src="mockups/03-slow-is-a-speed.jpg" alt="Slow Is a Speed, frente e costas" width="1800" height="912" loading="lazy"></div>
         <div class="ficha">
           <div class="topo-f"><h3>Slow Is a Speed</h3><span class="linha-tag">ESTRADA</span></div>
-          <span class="mono cor-malha">Oliva cerrado · osso e ipê</span>
-          <p>Uma roda raiada de 48 raios com a coroa da transmissão no centro, e a frase da casa correndo em volta como num pneu de faixa branca.</p>
+          <span class="mono cor-malha">Oversized · oliva · osso e ipê</span>
+          <p>Roda de 48 raios com a coroa da transmissão no centro e a frase da casa correndo em volta.</p>
         </div>
       </article>
       <article class="produto">
-        <div class="foto"><img src="img/m4_back.jpg" alt="Moto Works, costas" width="1100" height="1167" loading="lazy"><div class="lados"><span class="so">Costas</span></div></div>
+        <div class="foto"><img src="mockups/04-moto-works.jpg" alt="Moto Works, frente e costas" width="1800" height="912" loading="lazy"></div>
         <div class="ficha">
           <div class="topo-f"><h3>Moto Works</h3><span class="linha-tag">OFICINA</span></div>
-          <span class="mono cor-malha">Terra · osso e ipê</span>
-          <p>Brasão de oficina de corrida com bandeiras quadriculadas. O BELO em letra gorda, com o CEP da garagem como número de equipe.</p>
+          <span class="mono cor-malha">Oversized · terra · osso e ipê</span>
+          <p>Brasão de oficina de corrida com bandeiras quadriculadas e o CEP da garagem como número de equipe.</p>
         </div>
       </article>
       <article class="produto">
-        <div class="foto"><img src="img/m5_back.jpg" alt="Long Way Home, costas" width="1100" height="1167" loading="lazy"><div class="lados"><span class="so">Costas</span></div></div>
+        <div class="foto"><img src="mockups/05-long-way-home.jpg" alt="Long Way Home, frente e costas" width="1800" height="912" loading="lazy"></div>
         <div class="ficha">
           <div class="topo-f"><h3>Long Way Home</h3><span class="linha-tag">ESTRADA</span></div>
-          <span class="mono cor-malha">Grafite · ipê e osso</span>
-          <p>Sol em retícula se pondo na BR-060, com lobeiras do cerrado no horizonte. Pra quem volta de Brasília pela estrada mais longa de propósito.</p>
+          <span class="mono cor-malha">Oversized · preta · ipê e osso</span>
+          <p>Sol em retícula se pondo na BR-060, com lobeiras do cerrado no horizonte.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="grupo"><span class="mono">Drop 02</span><h3>Três normais e três oversized</h3></div>
+    <div class="drop">
+      <article class="produto">
+        <div class="foto"><img src="mockups/06-belo-ignition-co.jpg" alt="Belo Ignition Co., frente e costas" width="1800" height="912" loading="lazy"></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Belo Ignition Co.</h3><span class="linha-tag">OFICINA</span></div>
+          <span class="mono cor-malha">Normal · osso · graxa e terra</span>
+          <p>Vela de ignição soltando faísca, com o lema “Fire on every stroke”.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="mockups/07-two-speeds.jpg" alt="Two Speeds, frente e costas" width="1800" height="912" loading="lazy"></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Two Speeds</h3><span class="linha-tag">ESTRADA</span></div>
+          <span class="mono cor-malha">Normal · preta · osso e ipê</span>
+          <p>Velocímetro com o CEP da garagem no hodômetro. Só duas velocidades: devagar e mais devagar.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="mockups/08-open-face-society.jpg" alt="Open Face Society, frente e costas" width="1800" height="912" loading="lazy"></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Open Face Society</h3><span class="linha-tag">OFICINA</span></div>
+          <span class="mono cor-malha">Normal · cinza · graxa e terra</span>
+          <p>Capacete aberto com óculos, estampado no peito. O clube de quem anda de capacete aberto.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="mockups/09-anatomia-de-um-v2.jpg" alt="Anatomia de um V2, frente e costas" width="1800" height="912" loading="lazy"></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Anatomia de um V2</h3><span class="linha-tag">OFICINA</span></div>
+          <span class="mono cor-malha">Oversized · osso · tinta graxa</span>
+          <p>Desenho técnico estilo patente, com as peças do motor numeradas em português e a “patente da garagem”.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="mockups/10-garage-goods-union.jpg" alt="Garage Goods Union, frente e costas" width="1800" height="912" loading="lazy"></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Garage Goods Union</h3><span class="linha-tag">OFICINA</span></div>
+          <span class="mono cor-malha">Oversized · preta · osso e terra</span>
+          <p>Brasão de sindicato com pistão e chaves cruzadas. Local 62 é o DDD de Goiânia.</p>
+        </div>
+      </article>
+      <article class="produto">
+        <div class="foto"><img src="mockups/11-belo-motor-oil.jpg" alt="Belo Motor Oil, frente e costas" width="1800" height="912" loading="lazy"></div>
+        <div class="ficha">
+          <div class="topo-f"><h3>Belo Motor Oil</h3><span class="linha-tag">ESTRADA</span></div>
+          <span class="mono cor-malha">Oversized · marinho · osso e ipê</span>
+          <p>Lata de óleo antiga com rótulo de viscosidade goiana e o lema “Óleo, ferro & fé”.</p>
         </div>
       </article>
     </div>
@@ -616,7 +672,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
       <div><b>Malha 30.1</b><span>Algodão penteado, 180 g/m². Encorpada, cai reta.</span></div>
       <div><b>Lavada</b><span>Stone wash leve antes da estampa. Já sai com cara de usada.</span></div>
       <div><b>Serigrafia</b><span>Tinta à base d'água, 1 ou 2 cores. Azul cobalto entra como tinta extra só pra estampa.</span></div>
-      <div><b>Modelagem</b><span>Boxy, ombro caído, manga um dedo maior. Cabe por baixo da jaqueta.</span></div>
+      <div><b>Dois cortes</b><span>Oversized: ombro caído e corpo largo. Normal: manga no ombro e corpo reto.</span></div>
     </div>
   </div>
 </section>
