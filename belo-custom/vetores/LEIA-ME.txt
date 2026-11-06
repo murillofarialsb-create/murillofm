@@ -1,0 +1,37 @@
+BELO GARAGE GOODS · ARQUIVOS PARA ESTAMPARIA
+=============================================
+
+Formato
+- SVG e PDF vetoriais, com todo o texto convertido em curvas (não precisa instalar fonte).
+- Fundo transparente. Os arquivos são limpos: o desgaste que aparece nos mockups é efeito
+  de foto. Se quiser o visual gasto, peça tinta à base d'água ou efeito vintage na gráfica.
+
+ATENÇÃO: VAZADOS
+Alguns detalhes estão desenhados na cor da própria malha (coluna "Vazado" abaixo).
+Essa cor NÃO é tinta: são recortes que devem ficar sem impressão, mostrando a camiseta.
+Na separação de cores, descartar essa cor e manter os recortes (knockout).
+
+Tamanho sugerido de impressão
+- Costas (oversized): 30 cm de largura, começando uns 8 cm abaixo da gola.
+- Frente, "Belo" no peito: 9 cm de largura, lado esquerdo de quem veste.
+- 08 Open Face Society (frente): 24 cm de largura, centralizada no peito.
+
+PEÇAS
+Nº  Peça                     Malha     Tintas                      Vazado    Frente
+01  House of Slow Machines   Preta     #E07650                     #29282A   01-...-frente
+02  Ipê Engine               Osso      #26389A                     #E4DCC9   02-...-frente
+03  Slow Is a Speed          Oliva     #E4DCC9 + #E0A526           #4E4F33   peito-belo-tinta-clara
+04  Moto Works               Terra     #E9E0CC + #E0A526           #8B3B22   peito-belo-tinta-clara
+05  Long Way Home            Preta     #E9E0CC + #E0A526           #3B3A39   peito-belo-tinta-clara
+06  Belo Ignition Co.        Osso      #1E1B18 + #B8481F           #E4DCC9   peito-belo-tinta-escura
+07  Two Speeds               Preta     #E9E0CC + #E0A526           #29282A   peito-belo-tinta-clara
+08  Open Face Society        Cinza     #1E1B18 + #B8481F           #A9A6A0   (estampa só na frente)
+09  Anatomia de um V2        Osso      #1E1B18                     #E4DCC9   peito-belo-tinta-escura
+10  Garage Goods Union       Preta     #E9E0CC + #C9572C           #29282A   peito-belo-tinta-clara
+11  Belo Motor Oil           Marinho   #E9E0CC + #E0A526           #2C3448   peito-belo-tinta-clara
+
+Peito "Belo": tinta clara = #E9E0CC (para malhas escuras); tinta escura = #1E1B18 (para malhas claras).
+
+Cores da malha (referência)
+Preta lavada · Osso #E4DCC9 · Oliva #4E4F33 · Terra #8B3B22 · Cinza #A9A6A0 · Marinho #2C3448
+Os códigos de tinta estão em hexadecimal. Peça à gráfica o Pantone mais próximo e uma prova antes da tiragem.
