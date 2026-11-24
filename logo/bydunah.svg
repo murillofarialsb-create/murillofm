@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540">
+  <rect width="960" height="540" fill="#e4e4e4"/>
+  <g fill="#ffffff" transform="translate(-64,-93)">
+    <!-- BY -->
+    <text x="151" y="318" font-family="Montserrat, 'Helvetica Neue', Arial, sans-serif" font-weight="300" font-size="31" letter-spacing="1">BY</text>
+    <!-- D -->
+    <path fill-rule="evenodd" d="M214,295 H262 C312,295 339,326 339,362 C339,401 312,430 262,430 H214 Z M238,301 H262 C300,301 316,330 316,362 C316,396 300,424 262,424 H238 Z"/>
+    <!-- U -->
+    <path d="M358,295 H382 V388 C382,413 398,425 426,425 C455,425 472,411 472,386 V295 H477 V386 C477,415 458,431 426,431 C384,431 358,418 358,388 Z"/>
+    <!-- N -->
+    <rect x="498" y="295" width="4.5" height="135"/>
+    <path d="M498,295 H527 L611,414 V437 Z"/>
+    <rect x="606" y="295" width="5" height="142"/>
+    <!-- A -->
+    <path d="M629,430 H635 L698,293 L693,290 Z"/>
+    <path d="M691,290 H700 L758,430 H735 Z"/>
+    <rect x="684" y="356" width="40" height="4"/>
+    <!-- H -->
+    <rect x="776" y="295" width="24" height="135"/>
+    <rect x="871" y="295" width="24" height="135"/>
+    <rect x="800" y="355" width="71" height="4"/>
+  </g>
+</svg>
